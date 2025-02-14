@@ -1,2 +1,2 @@
 # eventplanner
-## Jacqueline, L1sa, Kilian, Maxim
+## Jacqueline, L1sa, Kilian, Maxim, Krist
