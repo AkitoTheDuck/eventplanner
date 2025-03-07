@@ -14,8 +14,8 @@ import java.io.*;
 
 public class GUI_Main {
     private JFrame frame = new JFrame("Eventplaner");
-    private JButton select = new JButton("Schülerwahl");
-    private JButton vlist = new JButton("Veranstaltungsliste");
+    private JLabel select = new JLabel("Schülerwahl");
+    private JLabel vlist = new JLabel("Veranstaltungsliste");
     private JButton rlist = new JButton("Raumliste");
     private JButton save = new JButton("save");
     private JButton download = new JButton("download");
@@ -24,8 +24,8 @@ public class GUI_Main {
     private JComboBox more = new JComboBox(endfiles);
 
     public GUI_Main () {
-        frame.setSize(800,500);
-        frame.setVisible(true);
+        frame.setSize(1100,500);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainPanel = new JPanel();
@@ -33,7 +33,7 @@ public class GUI_Main {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         JLabel titelLabel = new JLabel("Eventplaner", SwingConstants.CENTER);
         titelLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titelLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        titelLabel.setAlignmentY(Component.LEFT_ALIGNMENT);
         mainPanel.add(titelLabel, BorderLayout.NORTH);
         frame.add(mainPanel);
 
@@ -50,17 +50,17 @@ public class GUI_Main {
         //create drop Panels
         JPanel dropPanel1 = new JPanel();
         dropPanel1.setBackground(Color.LIGHT_GRAY);
-        dropPanel1.setPreferredSize(new Dimension(200,200));
+        dropPanel1.setPreferredSize(new Dimension(300,250));
         dropPanel1.setLayout(new FlowLayout());
         uploadPanel.add(dropPanel1, BorderLayout.CENTER);
         JPanel dropPanel2 = new JPanel();
         dropPanel2.setBackground(Color.LIGHT_GRAY);
-        dropPanel2.setPreferredSize(new Dimension(200,200));
+        dropPanel2.setPreferredSize(new Dimension(300,250));
         dropPanel2.setLayout(new FlowLayout());
         uploadPanel.add(dropPanel2, BorderLayout.CENTER);
         JPanel dropPanel3 = new JPanel();
         dropPanel3.setBackground(Color.LIGHT_GRAY);
-        dropPanel3.setPreferredSize(new Dimension(200,200));
+        dropPanel3.setPreferredSize(new Dimension(300,250));
         dropPanel3.setLayout(new FlowLayout());
         uploadPanel.add(dropPanel3, BorderLayout.CENTER);
 
@@ -71,7 +71,7 @@ public class GUI_Main {
                     dtde.acceptDrop(DnDConstants.ACTION_COPY);
                     Transferable transferable = dtde.getTransferable();
                     List<File> data = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                    StringBuilder files = new StringBuilder("Dropped: ");
+                    StringBuilder files = new StringBuilder("");
                     for (File file : data) {
                         files.append(file.getName()).append(", ");
                     }
@@ -96,7 +96,7 @@ public class GUI_Main {
                     dtde.acceptDrop(DnDConstants.ACTION_COPY);
                     Transferable transferable = dtde.getTransferable();
                     List<File> data = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                    StringBuilder files = new StringBuilder("Dropped: ");
+                    StringBuilder files = new StringBuilder("");
                     for (File file : data) {
                         files.append(file.getName()).append(", ");
                     }
@@ -120,7 +120,15 @@ public class GUI_Main {
                     dtde.acceptDrop(DnDConstants.ACTION_COPY);
                     Transferable transferable = dtde.getTransferable();
                     List<File> data = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                    JLabel droppedLabel = new JLabel("Dropped: " + data);
+                    StringBuilder files = new StringBuilder("");
+                    for (File file : data) {
+                        files.append(file.getName()).append(", ");
+                    }
+                    files.setLength(files.length() - 2);
+                    JLabel droppedLabel = new JLabel(files.toString());
+                    droppedLabel.setFont(adjustFontToFit(droppedLabel, dropPanel1));
+                    droppedLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+                    dropPanel3.removeAll();
                     dropPanel3.add(droppedLabel);
                     dropPanel3.revalidate();
                     dropPanel3.repaint();
@@ -134,7 +142,7 @@ public class GUI_Main {
         //create save Panel
         JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         savePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
-        savePanel.add(Box.createRigidArea(new Dimension(10, 300)));
+        savePanel.add(Box.createRigidArea(new Dimension(10, 250)));
         savePanel.add(save);
         upperPanel.add(savePanel, BorderLayout.EAST);
 
@@ -147,7 +155,9 @@ public class GUI_Main {
         lowerPanel.add(more);
         lowerPanel.add(download);
         mainPanel.add(lowerPanel);
+        frame.setVisible(true);
     }
+
 
     private Font adjustFontToFit(JLabel label, JPanel panel) {
         String text = label.getText();
