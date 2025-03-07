@@ -1,6 +1,6 @@
 package DataWrapper;
 
-public class Student {
+public class Student extends DataWrapper {
 
     private String klasse;
 

@@ -13,19 +13,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-
-public class StudentReaderPoi {
+public class StudentReader extends FileReader <Student> {
 
     private String filename;
 
-    private String delimiter;
-
-    public StudentReaderPoi(String filename, String delimiter) {
+    public StudentReader(String filename) {
         this.filename = filename;
-        this.delimiter = delimiter;
     }
 
     public ArrayList<Student> parse() {
@@ -68,8 +63,7 @@ public class StudentReaderPoi {
                         continue;
                     }
 
-                    float floatValue = Float.parseFloat(value);
-                    int valueInt = (int) floatValue;
+                    int valueInt = Integer.parseInt(value);
 
                     if ( ! value.isEmpty()) {
                         switch (y) {
@@ -95,23 +89,18 @@ public class StudentReaderPoi {
                     }
                 }
 
-                try {
-
-                    Student student = new Student(
-                            lineMap.get("Klasse"),
-                            lineMap.get("Name"),
-                            lineMap.get("Vorname"),
-                            choice1,
-                            choice2,
-                            choice3,
-                            choice4,
-                            choice5,
-                            choice6
-                    );
-                    studentArrayList.add(student);
-                } catch (NumberFormatException e) {
-                    System.out.println("Error parsing student choices: " + e.getMessage());
-                }
+                Student student = new Student(
+                        lineMap.get("Klasse"),
+                        lineMap.get("Name"),
+                        lineMap.get("Vorname"),
+                        choice1,
+                        choice2,
+                        choice3,
+                        choice4,
+                        choice5,
+                        choice6
+                );
+                studentArrayList.add(student);
             }
 
             workbook.close();
@@ -121,20 +110,6 @@ public class StudentReaderPoi {
         }
 
         return studentArrayList;
-    }
-
-
-
-    private static String getCellValue(Cell cell) {
-        if (cell == null) {
-            return "";
-        }
-        switch (cell.getCellType()) {
-            case STRING: return cell.getStringCellValue().trim();
-            case NUMERIC: return String.valueOf(cell.getNumericCellValue());
-            case BOOLEAN: return String.valueOf(cell.getBooleanCellValue());
-            default: return "";
-        }
     }
 
 }

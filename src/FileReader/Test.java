@@ -1,9 +1,8 @@
+package FileReader;
+
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import DataWrapper.Student;
-import FileReader.ClassRoomReader;
-import FileReader.CompanyReader;
-import FileReader.StudentReader;
 
 import java.io.IOException;
 import java.util.ArrayList;

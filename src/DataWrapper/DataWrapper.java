@@ -1,4 +1,4 @@
 package DataWrapper;
 
-public class DataWrapper {
+public abstract class DataWrapper {
 }
