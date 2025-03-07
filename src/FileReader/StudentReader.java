@@ -1,81 +1,140 @@
 package FileReader;
 
+
 import DataWrapper.Student;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class StudentReader {
+
+public class StudentReaderPoi {
 
     private String filename;
 
     private String delimiter;
 
-
-    public StudentReader(String filename, String delimiter) {
+    public StudentReaderPoi(String filename, String delimiter) {
         this.filename = filename;
         this.delimiter = delimiter;
     }
 
     public ArrayList<Student> parse() {
-        BufferedReader reader = null;
         ArrayList<Student> studentArrayList = new ArrayList<>();
         try {
-            reader = new BufferedReader(new FileReader(this.filename));
-            String line;
-            if ((line = reader.readLine()) != null) {
+            FileInputStream file = new FileInputStream(new File(this.filename));
 
-                String[] headers = line.split(this.delimiter);
+            Workbook workbook = new XSSFWorkbook(file);
+            Sheet sheet = workbook.getSheetAt(0);
 
-                while ((line = reader.readLine()) != null) {
-                    String[] values = line.split(this.delimiter);
 
-                    Map<String, String> lineMap = new HashMap<>();
+            Row headerRow = sheet.getRow(0);
+            Map<Integer, String> headers = new HashMap<>();
+            for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
+                headers.put(i, headerRow.getCell(i).getStringCellValue().trim());
+            }
 
-                    for (int i = 0; i < headers.length; i++) {
-                        if (i < values.length) {
-                            lineMap.put(headers[i].trim(), values[i].trim());
-                        } else {
-                            lineMap.put(headers[i].trim(), "");
+            // Iterate through each row, starting from row 1 (to skip headers)
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                Map<String, String> lineMap = new HashMap<>();
+
+                // Populate the line map with header-value pairs
+                for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
+                    String header = headers.get(j);
+                    String value = getCellValue(row.getCell(j));
+                    lineMap.put(header, value);
+                }
+
+
+                int choice1 = 0, choice2 = 0, choice3 = 0, choice4 = 0, choice5 = 0, choice6 = 0;
+
+                for (int y = 1; y <= 6; y++) {
+                    String key = "Wahl " + y;
+                    String value = lineMap.get(key);
+
+                    if (value == null) {
+                        continue;
+                    }
+
+                    float floatValue = Float.parseFloat(value);
+                    int valueInt = (int) floatValue;
+
+                    if ( ! value.isEmpty()) {
+                        switch (y) {
+                            case 1:
+                                choice1 = valueInt;
+                                break;
+                            case 2:
+                                choice2 = valueInt;
+                                break;
+                            case 3:
+                                choice3 = valueInt;
+                                break;
+                            case 4:
+                                choice4 = valueInt;
+                                break;
+                            case 5:
+                                choice5 = valueInt;
+                                break;
+                            case 6:
+                                choice6 = valueInt;
+                                break;
                         }
                     }
+                }
 
-                    if(Objects.equals(lineMap.get("Wahl 1"), "")) {
+                try {
 
-                    }
-
-                    try {
-                        Student student = new Student(
-                                lineMap.get("\uFEFFKlasse"),
-                                lineMap.get("Name"),
-                                lineMap.get("Vorname"),
-                                Integer.parseInt(lineMap.get("Wahl 1")),
-                                Integer.parseInt(lineMap.get("Wahl 2")),
-                                Integer.parseInt(lineMap.get("Wahl 3")),
-                                Integer.parseInt(lineMap.get("Wahl 4")),
-                                Integer.parseInt(lineMap.get("Wahl 5")),
-                                Integer.parseInt(lineMap.get("Wahl 6"))
-                            );
-
-                        studentArrayList.add(student);
-                    } catch (NumberFormatException e) {}
+                    Student student = new Student(
+                            lineMap.get("Klasse"),
+                            lineMap.get("Name"),
+                            lineMap.get("Vorname"),
+                            choice1,
+                            choice2,
+                            choice3,
+                            choice4,
+                            choice5,
+                            choice6
+                    );
+                    studentArrayList.add(student);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error parsing student choices: " + e.getMessage());
                 }
             }
-        } catch (IOException e) {
+
+            workbook.close();
+
+        } catch (IOException e){
             e.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         return studentArrayList;
+    }
+
+
+
+    private static String getCellValue(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
+        switch (cell.getCellType()) {
+            case STRING: return cell.getStringCellValue().trim();
+            case NUMERIC: return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN: return String.valueOf(cell.getBooleanCellValue());
+            default: return "";
+        }
     }
 
 }
