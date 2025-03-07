@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class DummySchueler {
     private String klasse;
     private String name;
@@ -10,6 +8,7 @@ public class DummySchueler {
     private int wahl4;
     private int wahl5;
     private int wahl6;
+    private int fulfilled;
 
     public DummySchueler(String klasse, String name, String vorname, int wahl1, int wahl2, int wahl3, int wahl4, int wahl5, int wahl6){
         this.klasse = klasse;
@@ -21,6 +20,7 @@ public class DummySchueler {
         this.wahl4 = wahl4;
         this.wahl5 = wahl5;
         this.wahl6 = wahl6;
+        this.fulfilled = 0;
     }
 
     public String getKlasse(){
@@ -35,25 +35,31 @@ public class DummySchueler {
         return vorname;
     }
 
-    public int getWahl1(){
+    public int getFirstWish(){
         return wahl1;
     }
 
-    public int getWahl2(){
+    public int getSecondWish(){
         return wahl2;
     }
 
-    public int getWahl3(){
+    public int getThirdWish(){
         return wahl3;
     }
 
-    public int getWahl4(){
+    public int getFourthWish(){
         return wahl4;
     }
 
-    public int getWahl5() { return wahl5; }
+    public int getFifthWish() { return wahl5; }
 
-    public int getWahl6(){
+    public int getSixthWish(){
         return wahl6;
+    }
+
+    public int getFulfilled(){return fulfilled; }
+
+    public void setFulfilled() {
+        this.fulfilled++;
     }
 }

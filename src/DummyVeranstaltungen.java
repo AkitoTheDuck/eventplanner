@@ -3,16 +3,16 @@ import java.util.ArrayList;
 public class DummyVeranstaltungen {
 
     private String name;
-    private int kapazitaet = 0;
-    private int gesamtKapazität;
+    private int capacity = 0;
+    private int totalCap;
     private int nummer;
     private ArrayList<DummySchueler> schuelerListe;
     private static int number = 0;
 
-    public DummyVeranstaltungen(String name, int kapazitaet){
+    public DummyVeranstaltungen(String name, int capacity){
         this.name = name;
         this.schuelerListe = new ArrayList<>();
-        this.gesamtKapazität = kapazitaet;
+        this.totalCap = capacity;
         number++;
         this.nummer += number;
     }
@@ -22,11 +22,12 @@ public class DummyVeranstaltungen {
     }
 
     public int getKap(){
-        return kapazitaet;
+        return capacity;
     }
 
     public void addSchueler(DummySchueler schueler){
         schuelerListe.add(schueler);
+        capacity++;
     }
 
     public ArrayList<DummySchueler> getSchuelerListe(){
@@ -37,7 +38,7 @@ public class DummyVeranstaltungen {
         return nummer;
     }
 
-    public int getGesamtKapazität(){
-        return gesamtKapazität;
+    public int getTotalCap(){
+        return totalCap;
     }
 }
