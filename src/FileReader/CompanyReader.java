@@ -71,9 +71,9 @@ public class CompanyReader extends FileReader<Company> {
                     intMaxE = Integer.parseInt(maxE);
                 }
 
-                String earlist = lineMap.get("Frühester Zeitpunkt");
+                String earliest = lineMap.get("Frühester Zeitpunkt");
 
-                Company company = new Company(nr,companyName,fieldOfStudy,max, intMaxE,earlist);
+                Company company = new Company(nr,companyName,fieldOfStudy,max, intMaxE,earliest);
 
                 companyArrayList.add(company);
             }
