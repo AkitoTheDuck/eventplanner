@@ -1,3 +1,7 @@
+package assignment;
+
+import java.util.ArrayList;
+
 public class DummySchueler {
     private String klasse;
     private String name;
@@ -9,6 +13,7 @@ public class DummySchueler {
     private int wahl5;
     private int wahl6;
     private int fulfilled;
+    private ArrayList<Integer> fulfilledWishes;
 
     public DummySchueler(String klasse, String name, String vorname, int wahl1, int wahl2, int wahl3, int wahl4, int wahl5, int wahl6){
         this.klasse = klasse;
@@ -21,6 +26,16 @@ public class DummySchueler {
         this.wahl5 = wahl5;
         this.wahl6 = wahl6;
         this.fulfilled = 0;
+    }
+
+    // 🔹 Extrahiert die Klassenstufenzahl (z. B. "10A" → 10)
+    public int getKlassenZahl() {
+        return Integer.parseInt(klasse.replaceAll("[^0-9]", ""));
+    }
+
+    // 🔹 Extrahiert den Klassenbuchstaben (z. B. "10A" → "A")
+    public String getKlassenBuchstabe() {
+        return klasse.replaceAll("[^A-Za-z]", "");
     }
 
     public String getKlasse(){
