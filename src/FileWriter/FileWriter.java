@@ -4,7 +4,7 @@ import DataWrapper.DataWrapper;
 
 public abstract class FileWriter <E extends DataWrapper> {
 
-    public abstract String write();
+    public abstract void write();
 
 
 
