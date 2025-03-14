@@ -17,8 +17,6 @@ public class ExcelCell {
 
     private int col;
 
-    //TODO center text
-
     public ExcelCell(String cellValue, int row, int col, XSSFWorkbook workbook) {
         setValue(cellValue);
         setRow(row);
@@ -26,6 +24,20 @@ public class ExcelCell {
         setFont(workbook.createFont());
         setStyle(workbook.createCellStyle());
         applyFont("Calibri");
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+    }
+
+    public void applyTextHorizontal(HorizontalAlignment alignment) {
+        style.setAlignment(alignment);
+    }
+
+    public void applyVerticalAlignment(VerticalAlignment alignment) {
+        style.setVerticalAlignment(alignment);
+    }
+
+    public void applyTextCenter() {
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
     }
 
     public void applyFontSize(short points) {
