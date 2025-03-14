@@ -7,7 +7,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
 import java.io.*;
-import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ public class GUI_Main {
     private JLabel select = new JLabel("Schülerwahl"); // Label für Schülerwahl
     private JLabel vlist = new JLabel("Veranstaltungsliste"); // Label für Veranstaltungen
     private JLabel rlist = new JLabel("Raumliste"); // Label für Räume
-    private JButton save = new JButton("save"); // Speichern-Button
     private JButton download = new JButton("download"); // Download-Button
     private String[] endfiles = {"Download all", "Raumplan", "Laufzettel", "Anwesenheitsliste"};
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
@@ -40,31 +38,24 @@ public class GUI_Main {
         mainPanel.add(upperPanel);
 
         // Upload-Bereich mit drei Panels
-        JPanel uploadPanel = new JPanel();
-        uploadPanel.setLayout(new BoxLayout(uploadPanel, BoxLayout.X_AXIS));
-
         JPanel titleDropPanel1 = createDropPanel(select);
         JPanel titleDropPanel2 = createDropPanel(vlist);
         JPanel titleDropPanel3 = createDropPanel(rlist);
 
-        uploadPanel.add(titleDropPanel1);
-        uploadPanel.add(titleDropPanel2);
-        uploadPanel.add(titleDropPanel3);
-
-        upperPanel.add(uploadPanel);
-
-        JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        savePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-        savePanel.add(save);
-        upperPanel.add(savePanel);
+        upperPanel.add(titleDropPanel1);
+        upperPanel.add(titleDropPanel2);
+        upperPanel.add(titleDropPanel3);
 
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowerPanel.add(more);
         lowerPanel.add(download);
         mainPanel.add(lowerPanel);
 
+        download.addActionListener(e -> downloadFiles()); //download-Button führt den download aus
+
         frame.setVisible(true);
     }
+
 
     // Erstellt ein Drop-Panel mit Drag-and-Drop-Funktionalität
     private JPanel createDropPanel(JLabel label) {
@@ -120,22 +111,21 @@ public class GUI_Main {
 
 
     // Lädt die gespeicherten Dateien herunter
-    public void downloadFiles(File selectedFile) {
-        String downloadPath = System.getProperty("user.home") + File.separator + "Downloads";
-        try {
-            if (selectedFile != null) {
-                Path destination = Paths.get(downloadPath, selectedFile.getName());
-                Files.copy(selectedFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
-            } else {
-                for (File file : dropPanelFiles.values()) {
-                    Path destination = Paths.get(downloadPath, file.getName());
-                    Files.copy(file.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Download abgeschlossen");
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Fehler beim Speichern der Datei");
+    //auch soll hier die algothmen aufgerufen werden, bei der auwahl der jeweiligen files. Also bei der auswahl Raumplan soll zum Beispiel der algorithmus für die Überarbeitung des Raumplanes durchgeführt werden
+    public void downloadFiles() {
+        String selectedOption = (String)more.getSelectedItem();
+        if (selectedOption == null)
+            return;
+
+        String downloadPath = System.getProperty("user.home") + "/Downloads/" + selectedOption + ".slsx";
+        File processedFile = new File(downloadPath);
+
+        if ("Download all".equals(selectedOption)){
+            System.out.println("Alle Datein werden heruntergeladen");
+            JOptionPane.showMessageDialog(null,"Alle verarbeitete Datein wurden heruntergeladen");
+        }else {
+            System.out.println("Herunterladen: " + processedFile.getAbsolutePath());
+            JOptionPane.showMessageDialog(null,selectedOption + "wurde heruntergeladen");
         }
     }
 }
