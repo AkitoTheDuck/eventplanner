@@ -1,10 +1,7 @@
 package FileWriterHelper;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -20,74 +17,78 @@ public class ExcelCell {
 
     private int col;
 
-    private XSSFWorkbook workbook;
-
-    public enum BorderWidth {
-        THIN, THICK, MEDIUM
-    }
+    //TODO center text
 
     public ExcelCell(String cellValue, int row, int col, XSSFWorkbook workbook) {
         setValue(cellValue);
         setRow(row);
         setCol(col);
-        setWorkbook(workbook);
         setFont(workbook.createFont());
         setStyle(workbook.createCellStyle());
+        applyFont("Calibri");
     }
 
-    public void applyFont(String fontName, boolean bold, boolean underline) {
-        Font font = this.font;
-        font.setBold(bold);
+    public void applyFontSize(short points) {
+        font.setFontHeightInPoints(points);
+        style.setFont(font);
+    }
+
+    public void applyBold() {
+        font.setBold(true);
+        style.setFont(font);
+    }
+
+    public void applyUnderline() {
+        font.setUnderline(Font.U_SINGLE);
+        style.setFont(font);
+    }
+
+    public void applyFont(String fontName) {
         font.setFontName(fontName);
-        if( underline) {
-            font.setUnderline(Font.U_SINGLE);
-        }
-        this.style.setFont(this.font);
+        style.setFont(this.font);
     }
 
-    public void applyCellBorder (boolean top, boolean bottom, boolean left, boolean right, BorderWidth wTop, BorderWidth wBottom, BorderWidth wLeft, BorderWidth wRight) {
+    public enum BorderPosition {
+        TOP, BOTTOM, LEFT, RIGHT
+    }
+
+    public void setBorder(BorderPosition pos, BorderStyle bStyle) {
         CellStyle style = this.style;
-        BorderStyle bStyle = BorderStyle.NONE;
-
-        if(top) {
-            switch (wTop) {
-                case BorderWidth.MEDIUM -> bStyle = BorderStyle.MEDIUM;
-                case BorderWidth.THICK -> bStyle = BorderStyle.THICK;
-                case BorderWidth.THIN -> bStyle = BorderStyle.THIN;
+        switch (pos) {
+            case TOP -> {
+                style.setBorderTop(bStyle);
             }
-            style.setBorderTop(bStyle);
-        }
-
-        if(bottom) {
-            switch (wBottom) {
-                case BorderWidth.MEDIUM -> bStyle = BorderStyle.MEDIUM;
-                case BorderWidth.THICK -> bStyle = BorderStyle.THICK;
-                case BorderWidth.THIN -> bStyle = BorderStyle.THIN;
+            case BOTTOM -> {
+                style.setBorderBottom(bStyle);
             }
-            style.setBorderBottom(bStyle);
-        }
-
-        if(left) {
-            switch (wLeft) {
-                case BorderWidth.MEDIUM -> bStyle = BorderStyle.MEDIUM;
-                case BorderWidth.THICK -> bStyle = BorderStyle.THICK;
-                case BorderWidth.THIN -> bStyle = BorderStyle.THIN;
+            case LEFT -> {
+                style.setBorderLeft(bStyle);
             }
-            style.setBorderLeft(bStyle);
-        }
-
-        if(right) {
-            switch (wRight) {
-                case BorderWidth.MEDIUM -> bStyle = BorderStyle.MEDIUM;
-                case BorderWidth.THICK -> bStyle = BorderStyle.THICK;
-                case BorderWidth.THIN -> bStyle = BorderStyle.THIN;
+            case RIGHT -> {
+                style.setBorderRight(bStyle);
             }
-            style.setBorderRight(bStyle);
         }
     }
 
-    public void applyBackgroundColor() {
-        this.style.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+    public void applyAllBorder(BorderStyle bStyle) {
+        style.setBorderTop(bStyle);
+        style.setBorderBottom(bStyle);
+        style.setBorderRight(bStyle);
+        style.setBorderLeft(bStyle);
+    }
+
+    public void applyBackgroundColor(IndexedColors color) {
+        this.style.setFillForegroundColor(color.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    }
+
+    public void applyToSheet(Sheet sheet) {
+        Row row = sheet.getRow(this.row);
+        if (row == null) row = sheet.createRow(this.row);
+
+        Cell cell = row.createCell(this.col);
+        cell.setCellValue(this.value);
+        cell.setCellStyle(this.style);
     }
 
 
@@ -95,7 +96,6 @@ public class ExcelCell {
     public String getValue() {
         return value;
     }
-
     public void setValue(String value) {
         this.value = value;
     }
@@ -103,7 +103,6 @@ public class ExcelCell {
     public CellStyle getStyle() {
         return style;
     }
-
     public void setStyle(CellStyle style) {
         this.style = style;
     }
@@ -111,7 +110,6 @@ public class ExcelCell {
     public Font getFont() {
         return font;
     }
-
     public void setFont(Font font) {
         this.font = font;
     }
@@ -119,7 +117,6 @@ public class ExcelCell {
     public int getRow() {
         return row;
     }
-
     public void setRow(int row) {
         this.row = row;
     }
@@ -127,16 +124,8 @@ public class ExcelCell {
     public int getCol() {
         return col;
     }
-
     public void setCol(int col) {
         this.col = col;
     }
 
-    public XSSFWorkbook getWorkbook() {
-        return workbook;
-    }
-
-    public void setWorkbook(XSSFWorkbook workbook) {
-        this.workbook = workbook;
-    }
 }
