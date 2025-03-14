@@ -1,3 +1,5 @@
+package Assigner;
+
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import DataWrapper.Student;
@@ -48,8 +50,8 @@ public class Assigner {
         System.out.println("Iteration " + iteration);
         int wishFulfilled = 0;
 
-        //veranstaltung muss zu Event geändert werden
-        //Event noch nicht vollständig von der Funktionalität und nicht Bereit für die Nutzung
+        //veranstaltung muss zu Assigner.Event geändert werden
+        //Assigner.Event noch nicht vollständig von der Funktionalität und nicht Bereit für die Nutzung
         /*
         if(veranstaltungen.get(wish - 1).getKap() < veranstaltungen.get(wish - 1).getTotalCap() && schueler.getWishFulfilled() < 5){
             veranstaltungen.get(wish - 1).addSchueler(schueler);
@@ -157,7 +159,7 @@ public class Assigner {
             for(ClassRoom freeRoom : freeRooms){
                 //boolean besetzt?
                 if(company.getMaxStudents() <= Integer.parseInt(freeRoom.getCapacity())){
-                    //Event wie DummyVeranstaltung planen
+                    //Assigner.Event wie DummyVeranstaltung planen
                     Event event = new Event(freeRoom, company);
                     freeRooms.remove(freeRoom);
                     System.out.println(event.printInfo());
@@ -174,7 +176,7 @@ public void printInfo(){
             System.out.println("Gesamtkapazität: " + company.getNr());
             System.out.println("VNr.: " + company.getNummer());
             System.out.println("Schüler: " + company.getSchuelerListe().size());
-            for(Student schueler : company.getSchuelerListe()){
+            for(Assigner.Student schueler : company.getSchuelerListe()){
                 System.out.println("Klasse: " + schueler.getKlasse());
                 System.out.println("Name: " + schueler.getName());
                 System.out.println("Vorname: " + schueler.getVorname());

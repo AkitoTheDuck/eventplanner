@@ -1,3 +1,5 @@
+package Assigner;
+
 public class Student {
     private String klasse;
     private String name;

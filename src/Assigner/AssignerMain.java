@@ -1,3 +1,5 @@
+package Assigner;
+
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import DataWrapper.Student;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Test main()
  */
-public class Main {
+public class AssignerMain {
 
     ArrayList<Student> schueler = new ArrayList<Student>();
     ArrayList<DummyVeranstaltungen> veranstaltungen = new ArrayList<DummyVeranstaltungen>();
@@ -19,7 +21,7 @@ public class Main {
 
 
 
-        Main main = new Main();
+        AssignerMain main = new AssignerMain();
         main.doThings();
 
 
