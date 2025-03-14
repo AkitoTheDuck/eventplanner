@@ -56,7 +56,14 @@ public class StudentReader extends FileReader <Student> {
                 int choice1 = 0, choice2 = 0, choice3 = 0, choice4 = 0, choice5 = 0, choice6 = 0;
 
                 for (int y = 1; y <= 6; y++) {
-                    String key = "Wahl " + y;
+                    String key = "";
+
+                    if(y == 6) {
+                        key = "Wahl 6 (Erstazwunsch)";
+                    } else {
+                        key = "Wahl " + y;
+                    }
+
                     String value = lineMap.get(key);
 
                     if (value == null) {
