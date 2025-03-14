@@ -1,4 +1,4 @@
-public class DummySchueler {
+public class Student {
     private String klasse;
     private String name;
     private String vorname;
@@ -10,7 +10,7 @@ public class DummySchueler {
     private int wahl6;
     private int fulfilled;
 
-    public DummySchueler(String klasse, String name, String vorname, int wahl1, int wahl2, int wahl3, int wahl4, int wahl5, int wahl6){
+    public Student(String klasse, String name, String vorname, int wahl1, int wahl2, int wahl3, int wahl4, int wahl5, int wahl6){
         this.klasse = klasse;
         this.name = name;
         this.vorname = vorname;

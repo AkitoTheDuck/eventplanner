@@ -1,10 +1,17 @@
+import DataWrapper.ClassRoom;
+import DataWrapper.Company;
+import DataWrapper.Student;
+import FileReader.ClassRoomReader;
+import FileReader.CompanyReader;
+import FileReader.StudentReader;
+
 import java.util.ArrayList;
 /**
  * Test main()
  */
 public class Main {
 
-    ArrayList<DummySchueler> schueler = new ArrayList<DummySchueler>();
+    ArrayList<Student> schueler = new ArrayList<Student>();
     ArrayList<DummyVeranstaltungen> veranstaltungen = new ArrayList<DummyVeranstaltungen>();
 
     public static void main(String[] args){
@@ -28,42 +35,57 @@ public class Main {
     }
 
     public void doThings(){
-        DummySchueler mustafa = new DummySchueler("ITF221", "Ehrenfeld", "Mustafa", 3, 2, 5, 1, 6, 4);
-        DummySchueler joshua = new DummySchueler("ITF223", "Mannherr", "Joshua", 1, 5, 6, 2, 4, 3);
-        DummySchueler manni = new DummySchueler("ITF223", "Loiser", "Manni", 1, 6, 5, 2, 3, 4);
-        DummySchueler max = new DummySchueler("ITF223", "Steffens", "Max", 1, 6, 5, 2, 3, 4);
-        DummySchueler stefan = new DummySchueler("ITF223", "Rein", "Stefan", 2, 5, 6, 1, 4, 3);
-        DummySchueler jasmin = new DummySchueler("ITF221", "Jade", "Jasmin", 1, 2, 3, 4, 5, 6);
-        DummySchueler rene = new DummySchueler("ITF221", "Adler", "Rene", 6, 5, 4, 3, 2, 1);
-        DummySchueler lara = new DummySchueler("ITF222", "Laus", "Lara", 1, 2, 3, 6, 5, 4);
-        DummySchueler max2 = new DummySchueler("ITF223", "Muskel", "Max", 3, 2, 1, 4, 5, 6);
 
-        DummyVeranstaltungen kosmetikGmbH = new DummyVeranstaltungen("Kosmetik GmbH", 10); // 1
-        DummyVeranstaltungen modernAG = new DummyVeranstaltungen("Modern AG", 10); // 2
-        DummyVeranstaltungen exclusiveEx = new DummyVeranstaltungen("ExclusiveEx", 10); // 3
-        DummyVeranstaltungen arzneiAG = new DummyVeranstaltungen("Arznei AG", 10); // 4
-        DummyVeranstaltungen leeroysWelt = new DummyVeranstaltungen("Leeroys Welt", 10); // 5
-        DummyVeranstaltungen aktuereAG = new DummyVeranstaltungen("Aktuere AG", 10); // 6
+        String filename = "ressources/import/IMPORT BOT2_Wahl.xlsx";
+        StudentReader reader = new StudentReader(filename);
+        ArrayList<Student> students =  reader.parse();
 
-        veranstaltungen.add(kosmetikGmbH);
-        veranstaltungen.add(modernAG);
-        veranstaltungen.add(exclusiveEx);
-        veranstaltungen.add(arzneiAG);
-        veranstaltungen.add(leeroysWelt);
-        veranstaltungen.add(aktuereAG);
 
-        schueler.add(mustafa);
-        schueler.add(joshua);
-        schueler.add(manni);
-        schueler.add(max);
-        schueler.add(stefan);
-        schueler.add(jasmin);
-        schueler.add(rene);
-        schueler.add(lara);
-        schueler.add(max2);
+        String filename2 = "ressources/import/IMPORT BOT0_Raumliste.xlsx";
+        ClassRoomReader cReader = new ClassRoomReader(filename2);
+        ArrayList<ClassRoom> classRooms =  cReader.parse();
 
-        Assigner assigner = new Assigner(schueler, veranstaltungen);
+        String filename3 = "ressources/import/IMPORT BOT1_Veranstaltungsliste.xlsx";
+        CompanyReader coReader = new CompanyReader(filename3);
+        ArrayList<Company> companies =  coReader.parse();
+
+
+        System.out.println("Veranstaltungen");
+        for(Company company : companies){
+            System.out.println("Nr.: " + company.getNr());
+            System.out.println("Name: " + company.getName());
+            System.out.println("Frühster Start: " + company.getEarliestStart());
+            System.out.println("Max Teilnehmer: " + company.getMaxStudents());
+            System.out.println("Max Events: " + company.getMaxEvents());
+            System.out.println("Studienfeld: " + company.getFieldOfStudy());
+            System.out.println("=====================");
+        }
+
+        System.out.println("Räume");
+
+        for(ClassRoom classRoom : classRooms){
+            System.out.println("Raumnummer: " + classRoom.getRoomNumber());
+            System.out.println("Kapazität: " + classRoom.getCapacity());
+            System.out.println("=====================");
+        }
+
+        System.out.println("Students");
+
+        for(Student student : students){
+            System.out.println("Nachname: " + student.getLastName());
+            System.out.println("Vorname: " + student.getFirstName());
+            System.out.println("Klasse: " + student.getKlasse());
+            System.out.println("Wunsch 1: " + student.getChoice1());
+            System.out.println("Wunsch 2: " + student.getChoice2());
+            System.out.println("Wunsch 3: " + student.getChoice3());
+            System.out.println("Wunsch 4: " + student.getChoice4());
+            System.out.println("Wunsch 5: " + student.getChoice5());
+            System.out.println("Wunsch 6: " + student.getChoice6());
+            System.out.println("=====================");
+        }
+
+        Assigner assigner = new Assigner(students, companies, classRooms);
         assigner.testAssignement();
-        assigner.printInfo();
+        //assigner.printInfo();
     }
 }
