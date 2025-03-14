@@ -1,4 +1,4 @@
-// Autoren: Lisa & Jacqueline
+package GUI;// Autoren: Lisa & Jacqueline
 
 import javax.swing.*;
 import java.awt.*;
