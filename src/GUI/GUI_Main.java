@@ -51,8 +51,11 @@ public class GUI_Main {
         lowerPanel.add(download);
         mainPanel.add(lowerPanel);
 
-        download.addActionListener(e -> downloadFiles()); //download-Button führt den download aus
-
+        if(dropPanelFiles.size() == 3) {
+            download.addActionListener(e -> GUI_Download.downloadFiles(more, dropPanelFiles)); //download-Button führt den download aus
+        } else {
+            download.addActionListener(i -> JOptionPane.showMessageDialog(null, "Bitte lege in jedes der 3 Felder die dazugehörige Datei ab!"));
+        }
         frame.setVisible(true);
     }
 
@@ -106,26 +109,6 @@ public class GUI_Main {
             System.out.println("Excel-Datei für Panel " + dropPanel.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
         } else {
             JOptionPane.showMessageDialog(null, "Nur Excel-Dateien (.xls, .xlsx) sind erlaubt.");
-        }
-    }
-
-
-    // Lädt die gespeicherten Dateien herunter
-    //auch soll hier die algothmen aufgerufen werden, bei der auwahl der jeweiligen files. Also bei der auswahl Raumplan soll zum Beispiel der algorithmus für die Überarbeitung des Raumplanes durchgeführt werden
-    public void downloadFiles() {
-        String selectedOption = (String)more.getSelectedItem();
-        if (selectedOption == null)
-            return;
-
-        String downloadPath = System.getProperty("user.home") + "/Downloads/" + selectedOption + ".slsx";
-        File processedFile = new File(downloadPath);
-
-        if ("Download all".equals(selectedOption)){
-            System.out.println("Alle Datein werden heruntergeladen");
-            JOptionPane.showMessageDialog(null,"Alle verarbeitete Datein wurden heruntergeladen");
-        }else {
-            System.out.println("Herunterladen: " + processedFile.getAbsolutePath());
-            JOptionPane.showMessageDialog(null,selectedOption + "wurde heruntergeladen");
         }
     }
 }
