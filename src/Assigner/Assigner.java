@@ -6,6 +6,7 @@ import DataWrapper.Student;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author AkitoTheDuck
@@ -13,9 +14,14 @@ import java.util.ArrayList;
 public class Assigner {
 
     private File myObj;
+
     private ArrayList<Student> schuelerListe;
     private ArrayList<Company> companies;
     private ArrayList<ClassRoom> classRooms;
+    private ArrayList<HashMap<Company , ArrayList<Student>>> records;
+    
+
+    private ArrayList<Event> events = new ArrayList<>();
     private int score = 0;
     private boolean fullKap = false;
     /**
@@ -50,22 +56,32 @@ public class Assigner {
         System.out.println("Iteration " + iteration);
         int wishFulfilled = 0;
 
-        //veranstaltung muss zu Assigner.Event geändert werden
-        //Assigner.Event noch nicht vollständig von der Funktionalität und nicht Bereit für die Nutzung
-        /*
-        if(veranstaltungen.get(wish - 1).getKap() < veranstaltungen.get(wish - 1).getTotalCap() && schueler.getWishFulfilled() < 5){
-            veranstaltungen.get(wish - 1).addSchueler(schueler);
-            System.out.println("Schüler " + schueler.getLastName() + ", " + schueler.getFirstName() + " in " + veranstaltungen.get(wish - 1).getName() + " hinzugefügt!");
-            wishFulfilled++;
-            schueler.iterateWishFulfilled();
-            System.out.println("Aktuelle Anzahl an Wünsche erfüllt für " + schueler.getLastName() + ", " + schueler.getFirstName() + ": " + schueler.getFulfilled());
-        } else{
-            System.out.println("Kapazität von " + veranstaltungen.get(wish - 1).getName() + " erreicht!");
-            System.out.println("--------------------------------");
 
-            fullKap = true;
+        HashMap<Company , ArrayList<Student>> recordSet = new HashMap<>();
+        ArrayList<Student> students = new ArrayList<>();
+        wish -= 1;
+        if(wish != -1){
+            if(companies.get(wish).getCapacity() < companies.get(wish).getTotalStudents() && schueler.getWishFulfilled() < 5){
+                companies.get(wish).addStudent(schueler);
+
+
+
+
+
+
+                System.out.println("Schüler " + schueler.getLastName() + ", " + schueler.getFirstName() + " in " + companies.get(wish).getName() + " hinzugefügt!");
+                wishFulfilled++;
+                schueler.iterateWishFulfilled();
+                System.out.println("Aktuelle Anzahl an Wünsche erfüllt für " + schueler.getLastName() + ", " + schueler.getFirstName() + ": " + schueler.getWishFulfilled());
+            }
+            else{
+                System.out.println("Kapazität von " + companies.get(wish).getName() + " erreicht!");
+                System.out.println("--------------------------------");
+
+                fullKap = true;
+            }
         }
-        */
+
         if(wishFulfilled == 1){
             switch(iteration){
                 case 1:
@@ -90,14 +106,18 @@ public class Assigner {
         }
 
         System.out.println("Score: " + score);
-
     }
-    public void testAssignement(){
-        //assigining events to rooms
-        //noch nicht fertig
-        //assignEvents(companies, classRooms);
 
-        //assigning students to events
+    public void testAssignement(){
+
+
+        fulfillWishes();
+
+        assignEvents();
+        System.out.println("Alle Events assigned");
+    }
+
+    private void fulfillWishes() {
         for(Student schueler : schuelerListe){
             if(!fullKap) {
                 assignPupil(1, schueler.getChoice1(), schueler);
@@ -153,39 +173,24 @@ public class Assigner {
         }
     }
 
-    private void assignEvents(ArrayList<Company> companies, ArrayList<ClassRoom> rooms) {
-        ArrayList<ClassRoom> freeRooms = rooms;
+    private void assignEvents() {
+        ArrayList<ClassRoom> freeRooms = new ArrayList<>(classRooms);
         for(Company company : companies){
-            for(ClassRoom freeRoom : freeRooms){
-                //boolean besetzt?
-                if(company.getMaxStudents() <= Integer.parseInt(freeRoom.getCapacity())){
-                    //Assigner.Event wie DummyVeranstaltung planen
-                    Event event = new Event(freeRoom, company);
-                    freeRooms.remove(freeRoom);
-                    System.out.println(event.printInfo());
+            for(ClassRoom room : freeRooms){
+                if(company.getMaxStudents() <= Integer.parseInt(room.getCapacity()) && !company.getStudentList().isEmpty()){
+                    Event event = new Event(room, company);
+                    events.add(event);
+                    //count < maxEvents? && zeitslot != E? => Neues Event
+                    while(!event.lastSlot()){
+                        //System.out.println(event.printInfo());
+                        //create copy!!!!
+                        events.add(new Event(event)); //adds new event with new timing
+                    }
+                    freeRooms.remove(room);
+                    break;
                 }
             }
-        }
-    }
-/*
-public void printInfo(){
-        //Test Output
-        for(Company company : companies){
-            System.out.println("--------------------------------");
-            System.out.println("Name: " + company.getName());
-            System.out.println("Gesamtkapazität: " + company.getNr());
-            System.out.println("VNr.: " + company.getNummer());
-            System.out.println("Schüler: " + company.getSchuelerListe().size());
-            for(Assigner.Student schueler : company.getSchuelerListe()){
-                System.out.println("Klasse: " + schueler.getKlasse());
-                System.out.println("Name: " + schueler.getName());
-                System.out.println("Vorname: " + schueler.getVorname());
-                System.out.println("---");
-            }
-        }
-        System.out.println("Erfüllungsscore: " + calcScore(schuelerListe.size(), score));
-        System.out.println("--------------------------------");
-    }
- */
 
+        }
+    }
 }
