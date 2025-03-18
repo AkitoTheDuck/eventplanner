@@ -20,6 +20,8 @@ public class Student extends DataWrapper {
 
     private int choice6;
 
+    private int wishFulfilled;
+
     public Student(String klasse, String lastName, String firstName, int choice1, int choice2, int choice3, int choice4, int choice5, int choice6) {
         this.klasse = klasse;
         this.lastName = lastName;
@@ -30,6 +32,7 @@ public class Student extends DataWrapper {
         this.choice4 = choice4;
         this.choice5 = choice5;
         this.choice6 = choice6;
+        this.wishFulfilled = 0;
     }
 
     public String getKlasse() {
@@ -42,6 +45,10 @@ public class Student extends DataWrapper {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public void iterateWishFulfilled() {
+        this.wishFulfilled++;
     }
 
     public int getChoice1() {
@@ -67,4 +74,6 @@ public class Student extends DataWrapper {
     public int getChoice6() {
         return choice6;
     }
+
+    public int getWishFulfilled() { return this.wishFulfilled; }
 }

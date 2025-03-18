@@ -1,26 +1,53 @@
-package FileReader;
+package Assigner;
 
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import DataWrapper.Student;
+import FileReader.ClassRoomReader;
+import FileReader.CompanyReader;
+import FileReader.StudentReader;
 
-import java.io.IOException;
 import java.util.ArrayList;
+/**
+ * Test main()
+ */
+public class AssignerMain {
 
-public class Test {
+    ArrayList<Student> schueler = new ArrayList<Student>();
+    ArrayList<DummyVeranstaltungen> veranstaltungen = new ArrayList<DummyVeranstaltungen>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
+        long nanoTime = System.nanoTime();
 
-        String filename = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Wahl BOT 23_24.xlsx";
+
+
+        AssignerMain main = new AssignerMain();
+        main.doThings();
+
+
+
+        System.out.println(System.nanoTime() - nanoTime);
+        long resultTime = System.nanoTime() - nanoTime;
+        // Convert nanotime to seconds and milliseconds
+        long seconds = resultTime / 1_000_000_000; // Nanoseconds to seconds
+        long milliseconds = (resultTime % 1_000_000_000) / 1_000_000; // Remaining nanoseconds to milliseconds
+        // Print the result
+        System.out.printf("Seconds: %d, Milliseconds: %d\n", seconds, milliseconds);
+
+    }
+
+    public void doThings(){
+
+        String filename = "ressources/import/IMPORT BOT2_Wahl.xlsx";
         StudentReader reader = new StudentReader(filename);
         ArrayList<Student> students =  reader.parse();
 
 
-        String filename2 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Raeume.xlsx";
+        String filename2 = "ressources/import/IMPORT BOT0_Raumliste.xlsx";
         ClassRoomReader cReader = new ClassRoomReader(filename2);
         ArrayList<ClassRoom> classRooms =  cReader.parse();
 
-        String filename3 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Veranstaltungen.xlsx";
+        String filename3 = "ressources/import/IMPORT BOT1_Veranstaltungsliste.xlsx";
         CompanyReader coReader = new CompanyReader(filename3);
         ArrayList<Company> companies =  coReader.parse();
 
@@ -30,6 +57,7 @@ public class Test {
             System.out.println("Nr.: " + company.getNr());
             System.out.println("Name: " + company.getName());
             System.out.println("Frühster Start: " + company.getEarliestStart());
+            System.out.println("Max Teilnehmer: " + company.getMaxStudents());
             System.out.println("Max Events: " + company.getMaxEvents());
             System.out.println("Studienfeld: " + company.getFieldOfStudy());
             System.out.println("=====================");
@@ -58,8 +86,8 @@ public class Test {
             System.out.println("=====================");
         }
 
-        int p = 0;
-
+        Assigner assigner = new Assigner(students, companies, classRooms);
+        assigner.testAssignement();
+        //assigner.printInfo();
     }
-
 }
