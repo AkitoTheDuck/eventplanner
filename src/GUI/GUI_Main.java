@@ -1,6 +1,6 @@
 package GUI;// Autoren: Lisa & Jacqueline
 
-import javax.print.DocFlavor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -40,9 +40,9 @@ public class GUI_Main {
         mainPanel.add(upperPanel);
 
         // Upload-Bereich mit drei Panels
-        JPanel titleDropPanel1 = createDropPanel(select);
-        JPanel titleDropPanel2 = createDropPanel(vlist);
-        JPanel titleDropPanel3 = createDropPanel(rlist);
+        JPanel titleDropPanel1 = createDropPanel(select, "Schülerauswahl");
+        JPanel titleDropPanel2 = createDropPanel(vlist, "Veranstaltungsliste");
+        JPanel titleDropPanel3 = createDropPanel(rlist, "Raumliste");
 
         upperPanel.add(titleDropPanel1);
         upperPanel.add(titleDropPanel2);
@@ -59,7 +59,7 @@ public class GUI_Main {
 
 
     // Erstellt ein Drop-Panel mit Drag-and-Drop-Funktionalität
-    private JPanel createDropPanel(JLabel label) {
+    private JPanel createDropPanel(JLabel label, String name) {
         JPanel titleDropPanel = new JPanel();
         titleDropPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         titleDropPanel.setLayout(new BoxLayout(titleDropPanel, BoxLayout.Y_AXIS));
@@ -82,7 +82,6 @@ public class GUI_Main {
                         java.util.List<File> files = (java.util.List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
                         if (!files.isEmpty()) {
                             File droppedFile = files.get(0);
-                            // TODO: hier muss der name übergeben werden für die Datein
                             handleFileDrop(name, fileLabel, droppedFile);
                         }
                     }

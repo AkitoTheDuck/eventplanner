@@ -15,7 +15,7 @@ public class GUI_Download {
 
     // Lädt die gespeicherten Dateien herunter
     //auch soll hier die algothmen aufgerufen werden, bei der auwahl der jeweiligen files. Also bei der auswahl Raumplan soll zum Beispiel der algorithmus für die Überarbeitung des Raumplanes durchgeführt werden
-    public void downloadFiles(JComboBox<String> more, Map<JPanel, File> dropPanelFiles) {
+    public void downloadFiles(JComboBox<String> more, Map<String, File> dropPanelFiles) {
         String selectedOption = (String)more.getSelectedItem();
         if (selectedOption == null) {
             return;
@@ -34,20 +34,26 @@ public class GUI_Download {
         }
     }
 
-    public void executeAlgorithm(String selectedOption, Map<JPanel, File> dropPanelFiles) {
+    public void executeAlgorithm(String selectedOption, Map<String, File> dropPanelFiles) {
+        String filePath1 = String.valueOf(dropPanelFiles.get("Schülerauswahl"));
+        String filePath2 = String.valueOf(dropPanelFiles.get("Veranstaltungsliste"));
+        String filePath3 = String.valueOf(dropPanelFiles.get("Raumliste"));
+        System.out.println(filePath1);
+        System.out.println(filePath2);
+        System.out.println(filePath3);
 
         switch (selectedOption) {
             case "Download all":
                 break;
             case "Raumplan":
-                Map.Entry<JPanel, File> secondEntry = entryList.get(1); // Index 1 für das zweite Element
-                File secondFile = secondEntry.getValue(); // Dateipfad holen
-                CompanyReader coReader = new CompanyReader();
+                String filename3 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Veranstaltungen.xlsx";
+                CompanyReader coReader = new CompanyReader(filename3);
                 ArrayList<Company> companies =  coReader.parse();
                 FileWriter<Company> writer = new CompanyTimeTableWriter();
-                writer.write();
+                writer.write(companies);
                 break;
             case "Laufzettel":
+                //TODO: Maxims code einbinden, ähnlich wie bei Raumplan (Christian)
                 break;
             case"Anwesenheitsliste":
                 break;
