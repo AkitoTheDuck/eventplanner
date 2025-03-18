@@ -1,5 +1,7 @@
 package Assigner;
 
+import java.util.ArrayList;
+
 public class Student {
     private String klasse;
     private String name;
@@ -11,6 +13,7 @@ public class Student {
     private int wahl5;
     private int wahl6;
     private int fulfilled;
+    private ArrayList<Integer> fulfilledWishes = new ArrayList<>();
 
     public Student(String klasse, String name, String vorname, int wahl1, int wahl2, int wahl3, int wahl4, int wahl5, int wahl6){
         this.klasse = klasse;
@@ -63,5 +66,15 @@ public class Student {
 
     public void setFulfilled() {
         this.fulfilled++;
+    }
+
+    public void addFulfilledWish(int eventId) {
+        if (fulfilledWishes.size() < 5) {
+            fulfilledWishes.add(eventId);
+        }
+    }
+
+    public ArrayList<Integer> getFulfilledWishes() {
+        return fulfilledWishes;
     }
 }

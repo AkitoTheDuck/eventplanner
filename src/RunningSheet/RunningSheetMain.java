@@ -1,18 +1,18 @@
 package RunningSheet;
 
-import assignment.DummySchueler;
-import assignment.DummyVeranstaltungen;
+import Assigner.Student;
+import Assigner.DummyVeranstaltungen;
 import java.util.ArrayList;
 
-public class Main {
+public class RunningSheetMain {
     public static void main(String[] args) {
         // 🔹 Dummy-Liste für Schüler
-        ArrayList<DummySchueler> schuelerListe = new ArrayList<>();
-        schuelerListe.add(new DummySchueler("10A", "Müller", "Lena", 1, 2, 3, 4, 5, 6));
-        schuelerListe.add(new DummySchueler("10A", "Schmidt", "Jonas", 2, 3, 1, 5, 6, 4));
-        schuelerListe.add(new DummySchueler("10B", "Becker", "Emma", 3, 1, 2, 6, 5, 4));
-        schuelerListe.add(new DummySchueler("10B", "Klein", "Felix", 4, 3, 2, 1, 6, 5));
-        schuelerListe.add(new DummySchueler("10C", "Wagner", "Lukas", 1, 2, 3, 4, 5, 6));
+        ArrayList<Student> schuelerListe = new ArrayList<>();
+        schuelerListe.add(new Student("10A", "Müller", "Lena", 1, 2, 3, 4, 5, 6));
+        schuelerListe.add(new Student("10A", "Schmidt", "Jonas", 2, 3, 1, 5, 6, 4));
+        schuelerListe.add(new Student("10B", "Becker", "Emma", 3, 1, 2, 6, 5, 4));
+        schuelerListe.add(new Student("10B", "Klein", "Felix", 4, 3, 2, 1, 6, 5));
+        schuelerListe.add(new Student("10C", "Wagner", "Lukas", 1, 2, 3, 4, 5, 6));
 
         // 🔹 Dummy-Liste für Veranstaltungen
         ArrayList<DummyVeranstaltungen> veranstaltungsListe = new ArrayList<>();

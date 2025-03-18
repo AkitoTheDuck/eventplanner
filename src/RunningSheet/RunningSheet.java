@@ -1,7 +1,7 @@
 package RunningSheet;
 
-import assignment.DummySchueler;
-import assignment.DummyVeranstaltungen;
+import Assigner.DummyVeranstaltungen;
+import Assigner.Student;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class RunningSheet {
-    public static void createExcel(ArrayList<DummySchueler> schuelers, ArrayList<DummyVeranstaltungen> veranstaltungen) throws IOException {
+    public static void createExcel(ArrayList<Student> schuelers, ArrayList<DummyVeranstaltungen> veranstaltungen) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Laufzettel");
 
@@ -42,7 +42,7 @@ public class RunningSheet {
         int schuelerProSeite = 4;
 
         for (int i = 0; i < schuelers.size(); i++) {
-            DummySchueler s = schuelers.get(i);
+            Student s = schuelers.get(i);
             Row row = sheet.createRow(rowIndex++);
 
             row.createCell(0).setCellValue(s.getVorname());
