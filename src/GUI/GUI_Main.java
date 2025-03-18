@@ -6,6 +6,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class GUI_Main {
     private JLabel select = new JLabel("Schülerwahl"); // Label für Schülerwahl
     private JLabel vlist = new JLabel("Veranstaltungsliste"); // Label für Veranstaltungen
     private JLabel rlist = new JLabel("Raumliste"); // Label für Räume
-    private JButton download = new JButton("download"); // Download-Button
+    private JButton download = new JButton("download");// Download-Button
     private String[] endfiles = {"Download all", "Raumplan", "Laufzettel", "Anwesenheitsliste"};
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
     private Map<JPanel, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
@@ -48,10 +49,9 @@ public class GUI_Main {
 
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowerPanel.add(more);
+        download.setEnabled(false);
         lowerPanel.add(download);
         mainPanel.add(lowerPanel);
-
-        download.addActionListener(e -> downloadFiles()); //download-Button führt den download aus
 
         frame.setVisible(true);
     }
@@ -104,28 +104,26 @@ public class GUI_Main {
             dropPanelFiles.put(dropPanel, droppedFile);
             fileLabel.setText(droppedFile.getName()); // Setzt den Dateinamen als Text
             System.out.println("Excel-Datei für Panel " + dropPanel.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
+            updateDownloadButton();
         } else {
             JOptionPane.showMessageDialog(null, "Nur Excel-Dateien (.xls, .xlsx) sind erlaubt.");
         }
     }
 
+    private void updateDownloadButton() {
+        // Alte Listener entfernen, um Dopplungen zu vermeiden
+        for (ActionListener al : download.getActionListeners()) {
+            download.removeActionListener(al);
+        }
 
-    // Lädt die gespeicherten Dateien herunter
-    //auch soll hier die algothmen aufgerufen werden, bei der auwahl der jeweiligen files. Also bei der auswahl Raumplan soll zum Beispiel der algorithmus für die Überarbeitung des Raumplanes durchgeführt werden
-    public void downloadFiles() {
-        String selectedOption = (String)more.getSelectedItem();
-        if (selectedOption == null)
-            return;
-
-        String downloadPath = System.getProperty("user.home") + "/Downloads/" + selectedOption + ".slsx";
-        File processedFile = new File(downloadPath);
-
-        if ("Download all".equals(selectedOption)){
-            System.out.println("Alle Datein werden heruntergeladen");
-            JOptionPane.showMessageDialog(null,"Alle verarbeitete Datein wurden heruntergeladen");
-        }else {
-            System.out.println("Herunterladen: " + processedFile.getAbsolutePath());
-            JOptionPane.showMessageDialog(null,selectedOption + "wurde heruntergeladen");
+        // Neuen Listener setzen basierend auf der Anzahl der Dateien
+        if (dropPanelFiles.size() == 3) {
+            download.addActionListener(e -> GUI_Download.downloadFiles(more, dropPanelFiles));
+            download.setEnabled(true); // Falls Button disabled war, aktivieren
+        } else {
+            download.addActionListener(i -> JOptionPane.showMessageDialog(null, "Bitte lege in jedes der 3 Felder die dazugehörige Datei ab!"));
+            download.setEnabled(false); // Optional: Button deaktivieren, bis 3 Dateien da sind
         }
     }
+
 }
