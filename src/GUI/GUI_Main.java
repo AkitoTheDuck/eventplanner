@@ -1,5 +1,6 @@
 package GUI;// Autoren: Lisa & Jacqueline
 
+import javax.print.DocFlavor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -19,7 +20,7 @@ public class GUI_Main {
     private JButton download = new JButton("download");// Download-Button
     private String[] endfiles = {"Download all", "Raumplan", "Laufzettel", "Anwesenheitsliste"};
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
-    private Map<JPanel, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
+    private Map<String, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
 
     public GUI_Main() {
         frame.setSize(1100, 500);
@@ -81,7 +82,8 @@ public class GUI_Main {
                         java.util.List<File> files = (java.util.List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
                         if (!files.isEmpty()) {
                             File droppedFile = files.get(0);
-                            handleFileDrop(dropPanel, fileLabel, droppedFile);
+                            // TODO: hier muss der name übergeben werden für die Datein
+                            handleFileDrop(name, fileLabel, droppedFile);
                         }
                     }
                 } catch (UnsupportedFlavorException | IOException e) {
@@ -96,14 +98,14 @@ public class GUI_Main {
     }
 
     // Verarbeitet die abgelegte Datei und zeigt deren Namen an
-    public void handleFileDrop(JPanel dropPanel, JLabel fileLabel, File droppedFile) {
+    private void handleFileDrop(String name, JLabel fileLabel, File droppedFile) {
         String fileName = droppedFile.getName();
 
         // Überprüfen, ob die Datei eine Excel-Datei ist (.xls oder .xlsx)
         if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
-            dropPanelFiles.put(dropPanel, droppedFile);
+            dropPanelFiles.put(name, droppedFile);
             fileLabel.setText(droppedFile.getName()); // Setzt den Dateinamen als Text
-            System.out.println("Excel-Datei für Panel " + dropPanel.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
+            System.out.println("Excel-Datei für Panel " + name.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
             updateDownloadButton();
         } else {
             JOptionPane.showMessageDialog(null, "Nur Excel-Dateien (.xls, .xlsx) sind erlaubt.");
@@ -118,7 +120,11 @@ public class GUI_Main {
 
         // Neuen Listener setzen basierend auf der Anzahl der Dateien
         if (dropPanelFiles.size() == 3) {
-            download.addActionListener(e -> GUI_Download.downloadFiles(more, dropPanelFiles));
+            download.addActionListener(e -> {
+                        GUI_Download gui_download = new GUI_Download();
+                        gui_download.downloadFiles(more, dropPanelFiles);
+                    }
+            );
             download.setEnabled(true); // Falls Button disabled war, aktivieren
         } else {
             download.addActionListener(i -> JOptionPane.showMessageDialog(null, "Bitte lege in jedes der 3 Felder die dazugehörige Datei ab!"));
