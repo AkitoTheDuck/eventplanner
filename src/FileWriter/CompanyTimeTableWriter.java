@@ -24,6 +24,7 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
 
         ExcelCell cellHeader = new ExcelCell("Organisationsplan für den Berufsorientierungstag",0,0, workbook);
         cellHeader.applyBold();
+        cellHeader.applyTextHorizontal(HorizontalAlignment.LEFT);
         cellHeader.applyFontSize((short) 14);
         cellHeader.applyFont("Arial");
         cellHeader.applyToSheet(sheet);
@@ -109,28 +110,34 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
             if (i == 1 || i == 0) {
                 timeSlotCell.setBorder(ExcelCell.BorderPosition.LEFT, BorderStyle.MEDIUM);
                 timeSlotCell.setBorder(ExcelCell.BorderPosition.RIGHT, BorderStyle.THIN);
+                timeSlotCell.setBorder(ExcelCell.BorderPosition.BOTTOM, BorderStyle.THIN);
             } else if (i == 5) {
                 timeSlotCell.setBorder(ExcelCell.BorderPosition.LEFT, BorderStyle.THIN);
                 timeSlotCell.setBorder(ExcelCell.BorderPosition.RIGHT, BorderStyle.MEDIUM);
+                timeSlotCell.setBorder(ExcelCell.BorderPosition.BOTTOM, BorderStyle.THIN);
             } else {
                 timeSlotCell.setBorder(ExcelCell.BorderPosition.LEFT, BorderStyle.THIN);
                 timeSlotCell.setBorder(ExcelCell.BorderPosition.RIGHT, BorderStyle.THIN);
+                timeSlotCell.setBorder(ExcelCell.BorderPosition.BOTTOM, BorderStyle.THIN);
             }
             timeSlotCell.applyBold();
             timeSlotCell.applyToSheet(sheet);
         }
 
-        int count = 6;
+        int rowCount = 6;
         for (Company company : list) {
 
-            ExcelCell cell = new ExcelCell( company.getName(), count, 0, workbook);
+            ExcelCell nameCell = new ExcelCell( company.getName(), rowCount, 0, workbook);
+            nameCell.setBorder(ExcelCell.BorderPosition.LEFT,BorderStyle.MEDIUM);
+            nameCell.setBorder(ExcelCell.BorderPosition.RIGHT,BorderStyle.MEDIUM);
+            nameCell.setBorder(ExcelCell.BorderPosition.TOP,BorderStyle.THIN);
+            nameCell.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.THIN);
+            nameCell.applyBold();
+            nameCell.applyTextHorizontal(HorizontalAlignment.LEFT);
+            nameCell.applyToSheet(sheet);
 
-            cell.applyToSheet(sheet);
-
-            count++;
+            rowCount++;
         }
-
-
 
         sheet.autoSizeColumn(1);
         sheet.autoSizeColumn(2);

@@ -31,7 +31,7 @@ public class ExcelCell {
         style.setAlignment(alignment);
     }
 
-    public void applyVerticalAlignment(VerticalAlignment alignment) {
+    public void applyTextVertical(VerticalAlignment alignment) {
         style.setVerticalAlignment(alignment);
     }
 

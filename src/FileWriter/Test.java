@@ -15,7 +15,7 @@ public class Test {
         CompanyReader coReader = new CompanyReader(filename3);
         ArrayList<Company> companies =  coReader.parse();
 
-        FileWriter writer = new CompanyTimeTableWriter();
+        FileWriter<Company> writer = new CompanyTimeTableWriter();
         writer.write(companies);
     }
 }
