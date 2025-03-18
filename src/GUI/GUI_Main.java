@@ -6,6 +6,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class GUI_Main {
     private JLabel select = new JLabel("Schülerwahl"); // Label für Schülerwahl
     private JLabel vlist = new JLabel("Veranstaltungsliste"); // Label für Veranstaltungen
     private JLabel rlist = new JLabel("Raumliste"); // Label für Räume
-    private JButton download = new JButton("download"); // Download-Button
+    private JButton download = new JButton("download");// Download-Button
     private String[] endfiles = {"Download all", "Raumplan", "Laufzettel", "Anwesenheitsliste"};
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
     private Map<JPanel, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
@@ -48,14 +49,10 @@ public class GUI_Main {
 
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowerPanel.add(more);
+        download.setEnabled(false);
         lowerPanel.add(download);
         mainPanel.add(lowerPanel);
 
-        if(dropPanelFiles.size() == 3) {
-            download.addActionListener(e -> GUI_Download.downloadFiles(more, dropPanelFiles)); //download-Button führt den download aus
-        } else {
-            download.addActionListener(i -> JOptionPane.showMessageDialog(null, "Bitte lege in jedes der 3 Felder die dazugehörige Datei ab!"));
-        }
         frame.setVisible(true);
     }
 
@@ -107,8 +104,26 @@ public class GUI_Main {
             dropPanelFiles.put(dropPanel, droppedFile);
             fileLabel.setText(droppedFile.getName()); // Setzt den Dateinamen als Text
             System.out.println("Excel-Datei für Panel " + dropPanel.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
+            updateDownloadButton();
         } else {
             JOptionPane.showMessageDialog(null, "Nur Excel-Dateien (.xls, .xlsx) sind erlaubt.");
         }
     }
+
+    private void updateDownloadButton() {
+        // Alte Listener entfernen, um Dopplungen zu vermeiden
+        for (ActionListener al : download.getActionListeners()) {
+            download.removeActionListener(al);
+        }
+
+        // Neuen Listener setzen basierend auf der Anzahl der Dateien
+        if (dropPanelFiles.size() == 3) {
+            download.addActionListener(e -> GUI_Download.downloadFiles(more, dropPanelFiles));
+            download.setEnabled(true); // Falls Button disabled war, aktivieren
+        } else {
+            download.addActionListener(i -> JOptionPane.showMessageDialog(null, "Bitte lege in jedes der 3 Felder die dazugehörige Datei ab!"));
+            download.setEnabled(false); // Optional: Button deaktivieren, bis 3 Dateien da sind
+        }
+    }
+
 }
