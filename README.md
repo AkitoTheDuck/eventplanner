@@ -10,4 +10,4 @@
 - [Datenverarbeitung](datenverarbeitung.md)
 - [Datenstrucktur](datenstrucktur.md)
 - [Architektur](architektur.md)
-- [Autoren])(autoren.md)
+- [Autoren](autoren.md)
