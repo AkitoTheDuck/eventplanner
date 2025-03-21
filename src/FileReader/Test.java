@@ -11,16 +11,16 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
 
-        String filename = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Wahl BOT 23_24.xlsx";
+        String filename = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\IMPORT BOT2_Wahl.xlsx";
         StudentReader reader = new StudentReader(filename);
         ArrayList<Student> students =  reader.parse();
 
 
-        String filename2 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Raeume.xlsx";
+        String filename2 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\IMPORT BOT0_Raumliste.xlsx";
         ClassRoomReader cReader = new ClassRoomReader(filename2);
         ArrayList<ClassRoom> classRooms =  cReader.parse();
 
-        String filename3 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Veranstaltungen.xlsx";
+        String filename3 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\IMPORT BOT1_Veranstaltungsliste.xlsx";
         CompanyReader coReader = new CompanyReader(filename3);
         ArrayList<Company> companies =  coReader.parse();
 

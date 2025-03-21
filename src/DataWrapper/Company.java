@@ -1,5 +1,7 @@
 package DataWrapper;
 
+import java.util.ArrayList;
+
 public class Company extends DataWrapper {
 
     private String nr;
@@ -13,6 +15,8 @@ public class Company extends DataWrapper {
     private int maxEvents;
 
     private String earliestStart;
+
+    private ArrayList<Student> schuelerListe = new ArrayList<>();
 
     public Company(String nr, String name, String fieldOfStudy, int maxStudents, int maxEvents, String earliestStart) {
         setNr(nr);
@@ -69,5 +73,9 @@ public class Company extends DataWrapper {
 
     public void setEarliestStart(String earliestStart) {
         this.earliestStart = earliestStart;
+    }
+
+    public void addSchueler(Student schueler){
+        schuelerListe.add(schueler);
     }
 }
