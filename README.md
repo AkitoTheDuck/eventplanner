@@ -1,13 +1,13 @@
 # Event Planer Dokumentation
 
 ## Inhaltsverzeichnis
-- [Einleitung](src/doku/einleitung.md)
-- [Anforderungen](src/doku/anforderungen.md)
-- [Installation & Setup](src/doku/installation.md)
+- [Einleitung](src/Doku/einleitung.md)
+- [Anforderungen](src/Doku/anforderungen.md)
+- [Installation & Setup](src/Doku/installation.md)
 
 ## Weitere Dokumentation:
-- [Nutzung](src/doku/nutzung.md)
-- [Datenverarbeitung](src/doku/datenverarbeitung.md)
-- [Datenstrucktur](src/doku/datenstrucktur.md)
-- [Architektur](src/doku/architektur.md)
-- [Autoren](src/doku/autoren.md)
+- [Nutzung](src/Doku/nutzung.md)
+- [Datenverarbeitung](src/Doku/datenverarbeitung.md)
+- [Datenstrucktur](src/Doku/datenstrucktur.md)
+- [Architektur](src/Doku/architektur.md)
+- [Autoren](src/Doku/autoren.md)
