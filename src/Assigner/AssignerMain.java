@@ -87,7 +87,7 @@ public class AssignerMain {
         }
 
         Assigner assigner = new Assigner(students, companies, classRooms);
-        assigner.testAssignement();
+        assigner.assign();
         //assigner.printInfo();
     }
 }

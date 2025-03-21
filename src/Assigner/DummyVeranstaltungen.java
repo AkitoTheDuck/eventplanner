@@ -1,5 +1,7 @@
 package Assigner;
 
+import DataWrapper.Student;
+
 import java.util.ArrayList;
 
 public class DummyVeranstaltungen {
