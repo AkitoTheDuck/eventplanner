@@ -2,9 +2,12 @@ package GUI;
 
 
 import DataWrapper.Company;
+import FileReader.ClassRoomReader;
 import FileReader.CompanyReader;
+import FileReader.StudentReader;
 import FileWriter.CompanyTimeTableWriter;
 import FileWriter.FileWriter;
+import RunningSheet.RunningSheetMain;
 
 import javax.swing.*;
 import java.io.File;
@@ -34,26 +37,28 @@ public class GUI_Download {
         }
     }
 
+    //TODO: wir brauchen den Algorithmus von Kilian,welcher zu erst alle datein einlist, dannach soll erst die switch case funktion ausgeführt werden
+
     public void executeAlgorithm(String selectedOption, Map<String, File> dropPanelFiles) {
         String filePath1 = String.valueOf(dropPanelFiles.get("Schülerauswahl"));
         String filePath2 = String.valueOf(dropPanelFiles.get("Veranstaltungsliste"));
         String filePath3 = String.valueOf(dropPanelFiles.get("Raumliste"));
-        System.out.println(filePath1);
-        System.out.println(filePath2);
-        System.out.println(filePath3);
+
+        CompanyReader coReader = new CompanyReader(filePath2);
+        StudentReader stReader = new StudentReader(filePath1);
+        ClassRoomReader clReader = new ClassRoomReader(filePath3);
 
         switch (selectedOption) {
             case "Download all":
                 break;
             case "Raumplan":
-                String filename3 = "U:\\Documents\\java_workspace\\Eventplanner\\ressources\\import\\2024\\Veranstaltungen.xlsx";
-                CompanyReader coReader = new CompanyReader(filename3);
                 ArrayList<Company> companies =  coReader.parse();
                 FileWriter<Company> writer = new CompanyTimeTableWriter();
                 writer.write(companies);
                 break;
             case "Laufzettel":
                 //TODO: Maxims code einbinden, ähnlich wie bei Raumplan (Christian)
+                RunningSheetMain.main(new String[] {});
                 break;
             case"Anwesenheitsliste":
                 break;

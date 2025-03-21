@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GUI_Main {
+public class GUI {
     private JFrame frame = new JFrame("Eventplaner"); // Hauptfenster
     private JLabel select = new JLabel("Schülerwahl"); // Label für Schülerwahl
     private JLabel vlist = new JLabel("Veranstaltungsliste"); // Label für Veranstaltungen
@@ -22,7 +22,7 @@ public class GUI_Main {
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
     private Map<String, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
 
-    public GUI_Main() {
+    public GUI() {
         frame.setSize(1100, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
