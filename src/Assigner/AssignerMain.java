@@ -13,9 +13,6 @@ import java.util.ArrayList;
  */
 public class AssignerMain {
 
-    ArrayList<Student> schueler = new ArrayList<Student>();
-    ArrayList<DummyVeranstaltungen> veranstaltungen = new ArrayList<DummyVeranstaltungen>();
-
     public static void main(String[] args){
         long nanoTime = System.nanoTime();
 
@@ -87,7 +84,7 @@ public class AssignerMain {
         }
 
         Assigner assigner = new Assigner(students, companies, classRooms);
-        assigner.testAssignement();
+        assigner.assign();
         //assigner.printInfo();
     }
 }
