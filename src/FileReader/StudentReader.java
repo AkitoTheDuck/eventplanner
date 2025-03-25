@@ -98,7 +98,7 @@ public class StudentReader extends FileReader <Student> {
 
                 Student student = new Student(
                         lineMap.get("Klasse"),
-                        lineMap.get("Name"),
+                        lineMap.get("Nachname"),
                         lineMap.get("Vorname"),
                         choice1,
                         choice2,
