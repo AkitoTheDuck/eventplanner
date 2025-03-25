@@ -2,12 +2,13 @@ package GUI;
 
 
 import DataWrapper.Company;
+import DataWrapper.Student;
 import FileReader.ClassRoomReader;
 import FileReader.CompanyReader;
 import FileReader.StudentReader;
 import FileWriter.CompanyTimeTableWriter;
 import FileWriter.FileWriter;
-import RunningSheet.RunningSheetMain;
+import FileWriter.StudentScheduleWriter;
 
 import javax.swing.*;
 import java.io.File;
@@ -53,12 +54,14 @@ public class GUI_Download {
                 break;
             case "Raumplan":
                 ArrayList<Company> companies =  coReader.parse();
-                FileWriter<Company> writer = new CompanyTimeTableWriter();
-                writer.write(companies);
+                FileWriter<Company> coWriter = new CompanyTimeTableWriter();
+                coWriter.write(companies);
                 break;
             case "Laufzettel":
                 //TODO: Maxims code einbinden, ähnlich wie bei Raumplan (Christian)
-                RunningSheetMain.main(new String[] {});
+                ArrayList<Student> students =  stReader.parse();
+                FileWriter<Student> stWriter = new StudentScheduleWriter();
+                stWriter.write(students);
                 break;
             case"Anwesenheitsliste":
                 break;
