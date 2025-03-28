@@ -11,6 +11,9 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.nio.file.*;
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 public class GUI {
     private JFrame frame = new JFrame("Eventplaner"); // Hauptfenster
@@ -152,30 +155,40 @@ public class GUI {
         infoFrame.setSize(800, 600);
         infoFrame.setLocationRelativeTo(frame);
 
-        // Layout: Aufteilen in zwei Spalten: Inhaltsverzeichnis und Text
+        // Layout: Inhaltsverzeichnis (links) und Markdown-Text (rechts)
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
+        // Erstelle JEditorPane für HTML-Inhalte
+        JEditorPane htmlPane = new JEditorPane();
+        htmlPane.setContentType("text/html");
+        htmlPane.setEditable(false);
+
+        // Markdown-Datei laden und umwandeln
+        String htmlContent = renderMarkdownToHtml(loadMarkdownFile("StepbyStep.md"));
+        htmlPane.setText(htmlContent);
+
         // Linke Seite: Inhaltsverzeichnis
-        JPanel tocPanel = createTOCPanel(textArea);
+        JPanel tocPanel = createTOCPanel(htmlPane);
 
-        // Rechte Seite: Textbereich mit ScrollPane
-        textArea.setEditable(false);  // Textbereich bleibt nur lesbar
+        // Rechte Seite: HTML-Inhalt mit ScrollPane
+        JScrollPane scrollPane = new JScrollPane(htmlPane);
 
-        // Setze den ersten Abschnitt ("StepbyStep"), wenn das Fenster geöffnet wird
-        jumpToSection("StepbyStep", textArea);  // "StepbyStep" als Standardabschnitt
-
-        JScrollPane scrollPane = new JScrollPane(textArea);
-
-        // Setze das ScrollPane als rechten Teil des SplitPanes
+        // JSplitPane füllen
         splitPane.setLeftComponent(tocPanel);
         splitPane.setRightComponent(scrollPane);
 
-        // Füge das SplitPane zum JFrame hinzu
+        // Fenster konfigurieren und anzeigen
         infoFrame.add(splitPane);
-
-        // Stelle sicher, dass das Fenster sichtbar ist
         infoFrame.setVisible(true);
     }
+
+    private String renderMarkdownToHtml(String markdown) {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
+    }
+
 
     //TODO: das problem liegt daran das oben wo die funktion aufgerufen wird die datein nicht richtig geladen werden also muss das irgendwie abgeändert werden
 
@@ -206,7 +219,7 @@ public class GUI {
     }
 
 
-    private JPanel createTOCPanel(JTextArea textArea) {
+    private JPanel createTOCPanel(JEditorPane htmlPane) {
         JPanel tocPanel = new JPanel();
         tocPanel.setLayout(new BoxLayout(tocPanel, BoxLayout.Y_AXIS));
 
@@ -217,7 +230,7 @@ public class GUI {
             sectionLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Cursor als Link-Style
             sectionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    jumpToSection(section,textArea);
+                    jumpToSection(section,htmlPane);
                 }
             });
             tocPanel.add(sectionLabel);
@@ -225,7 +238,7 @@ public class GUI {
 
         return tocPanel;
     }
-    private void jumpToSection(String section, JTextArea textArea) {
+    private void jumpToSection(String section, JEditorPane htmlPane) {
         String fileName = "";
         String fileContent = "";  // Variable zum Speichern des Inhalts der geladenen Datei
 
@@ -253,8 +266,9 @@ public class GUI {
         }
 
         // Setze den geladenen Inhalt in das JTextArea
-        textArea.setText(fileContent);  // Hier wird das JTextArea mit dem Inhalt gefüllt
-        textArea.setCaretPosition(0);   // Cursor an den Anfang setzen
+        String htmlContent = renderMarkdownToHtml(loadMarkdownFile(fileName));
+        htmlPane.setText(htmlContent);
+        htmlPane.setCaretPosition(0);  // Nach oben scrollen
     }
 
 }
