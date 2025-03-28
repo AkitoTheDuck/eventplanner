@@ -7,7 +7,6 @@ import FileReader.CompanyReader;
 import FileReader.StudentReader;
 import FileWriter.CompanyTimeTableWriter;
 import FileWriter.FileWriter;
-import RunningSheet.RunningSheetMain;
 
 import javax.swing.*;
 import java.io.File;
@@ -58,7 +57,6 @@ public class GUI_Download {
                 break;
             case "Laufzettel":
                 //TODO: Maxims code einbinden, ähnlich wie bei Raumplan (Christian)
-                RunningSheetMain.main(new String[] {});
                 break;
             case"Anwesenheitsliste":
                 break;
