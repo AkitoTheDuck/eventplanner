@@ -28,6 +28,7 @@ public class StudentScheduleWriter extends FileWriter<Student> {
         int sheetNumber = 1;
         XSSFSheet sheet = createNewSheet(workbook, sheetNumber);
         int rowCount = 0;
+        String filePath = "U:\\Documents\\Downloads\\";
 
         try {
             for (Student student : students) {
@@ -44,7 +45,7 @@ public class StudentScheduleWriter extends FileWriter<Student> {
             }
 
             // Excel-Datei schreiben
-            FileOutputStream out = new FileOutputStream(new File("Laufzettel.xlsx"));
+            FileOutputStream out = new FileOutputStream(new File( filePath + "Laufzettel.xlsx"));
             workbook.write(out);
             out.close();
             System.out.println("Laufzettel.xlsx erfolgreich gespeichert.");
