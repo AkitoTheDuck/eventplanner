@@ -22,6 +22,7 @@ public class GUI {
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
     private Map<String, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
     private JButton infoButton = new JButton("i");
+    private JTextArea textArea = new JTextArea();
 
     public GUI() {
         frame.setSize(1100, 500);
@@ -40,6 +41,7 @@ public class GUI {
         infoButton.setFocusPainted(false); // Kein Fokus-Effekt
         infoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         infoButton.addActionListener(e -> openInfoWindow());
+
 
         // Panel für die obere rechte Ecke
         JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -112,14 +114,14 @@ public class GUI {
     private void handleFileDrop(String name, JLabel fileLabel, File droppedFile) {
         String fileName = droppedFile.getName();
 
-        // Wenn die Datei eine .md ist, sie als Text anzeigen
-        if (fileName.endsWith(".md")) {
+        // Wenn die Datei eine Excel-Datei (.xls oder .xlsx) ist, wird sie verarbeitet
+        if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
             dropPanelFiles.put(name, droppedFile);
             fileLabel.setText(droppedFile.getName()); // Setzt den Dateinamen als Text
-            System.out.println("Markdown-Datei für Panel " + name.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
+            System.out.println("Excel-Datei für Panel " + name.hashCode() + " gespeichert: " + droppedFile.getAbsolutePath());
             updateDownloadButton();
         } else {
-            JOptionPane.showMessageDialog(null, "Nur Markdown-Dateien (.md) sind erlaubt.");
+            JOptionPane.showMessageDialog(null, "Nur Excel-Dateien (.xls, .xlsx) sind erlaubt.");
         }
     }
 
@@ -154,25 +156,34 @@ public class GUI {
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         // Linke Seite: Inhaltsverzeichnis
-        JPanel tocPanel = createTOCPanel();
+        JPanel tocPanel = createTOCPanel(textArea);
 
         // Rechte Seite: Textbereich mit ScrollPane
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setText(""); // Initial leer
+        textArea.setEditable(false);  // Textbereich bleibt nur lesbar
+
+        // Setze den ersten Abschnitt ("StepbyStep"), wenn das Fenster geöffnet wird
+        jumpToSection("StepbyStep", textArea);  // "StepbyStep" als Standardabschnitt
+
         JScrollPane scrollPane = new JScrollPane(textArea);
 
+        // Setze das ScrollPane als rechten Teil des SplitPanes
         splitPane.setLeftComponent(tocPanel);
         splitPane.setRightComponent(scrollPane);
 
+        // Füge das SplitPane zum JFrame hinzu
         infoFrame.add(splitPane);
+
+        // Stelle sicher, dass das Fenster sichtbar ist
         infoFrame.setVisible(true);
     }
+
+    //TODO: das problem liegt daran das oben wo die funktion aufgerufen wird die datein nicht richtig geladen werden also muss das irgendwie abgeändert werden
 
     // Lädt den Inhalt der Markdown-Datei
     private String loadMarkdownFile(String fileName) {
         StringBuilder content = new StringBuilder();
-        String path = "Doku/userInfo/" + fileName;
+        String path = "src/Doku/userInfo/" + fileName;
+        System.out.println("Versuche zu laden: " + path);
         File mdFile = new File(path);
         if (!mdFile.exists()) {
             JOptionPane.showMessageDialog(null, "Datei " + fileName + " nicht gefunden.");
@@ -188,22 +199,25 @@ public class GUI {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Fehler beim Laden der Datei.");
         }
+
+        System.out.println(content.toString());
+
         return content.toString();
     }
 
 
-    private JPanel createTOCPanel() {
+    private JPanel createTOCPanel(JTextArea textArea) {
         JPanel tocPanel = new JPanel();
         tocPanel.setLayout(new BoxLayout(tocPanel, BoxLayout.Y_AXIS));
 
         // Inhaltsverzeichnis mit Links
-        String[] sections = {"Einführung", "Funktionalität", "Fehlerbehebung"};
+        String[] sections = {"StepbyStep", "DragnDrop", "Download" , "Erfüllungsscore"};
         for (String section : sections) {
             JLabel sectionLabel = new JLabel("<html><u>" + section + "</u></html>"); // HTML für unterstrichenen Text
             sectionLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Cursor als Link-Style
             sectionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    jumpToSection(section);
+                    jumpToSection(section,textArea);
                 }
             });
             tocPanel.add(sectionLabel);
@@ -211,23 +225,36 @@ public class GUI {
 
         return tocPanel;
     }
-
-    private void jumpToSection(String section) {
-        // Beispiel: Wenn der Benutzer auf den Abschnitt "Einführung" klickt
+    private void jumpToSection(String section, JTextArea textArea) {
         String fileName = "";
-        if (section.equals("Einführung")) {
-            fileName = "einfuehrung.md";
-        } else if (section.equals("Funktionalität")) {
-            fileName = "funktionalitaet.md";
-        } else if (section.equals("Fehlerbehebung")) {
-            fileName = "fehlerbehebung.md";
+        String fileContent = "";  // Variable zum Speichern des Inhalts der geladenen Datei
+
+        // Bestimme die zu ladende Datei anhand des Abschnitts
+        switch (section) {
+            case "StepbyStep":
+                fileName = "StepbyStep.md";
+                fileContent = loadMarkdownFile(fileName);
+                break;
+            case "DragnDrop":
+                fileName = "DragnDrop.md";
+                fileContent = loadMarkdownFile(fileName);
+                break;
+            case "Download":
+                fileName = "Download.md";
+                fileContent = loadMarkdownFile(fileName);
+                break;
+            case "Erfüllungsscore":
+                fileName = "Erfüllungsscore.md";
+                fileContent = loadMarkdownFile(fileName);
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Abschnitt nicht gefunden: " + section);
+                return;  // Wenn der Abschnitt nicht gefunden wurde, abbrechen
         }
 
-        // Nachdem der Dateiname festgelegt wurde, laden wir den Inhalt und setzen ihn im Textbereich
-        String fileContent = loadMarkdownFile(fileName);
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setText(fileContent);  // Setzt den geladenen Inhalt in den Textbereich
-        textArea.setCaretPosition(0); // Standardposition zu Beginn
+        // Setze den geladenen Inhalt in das JTextArea
+        textArea.setText(fileContent);  // Hier wird das JTextArea mit dem Inhalt gefüllt
+        textArea.setCaretPosition(0);   // Cursor an den Anfang setzen
     }
+
 }
