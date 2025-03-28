@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.nio.file.*;
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -24,8 +23,7 @@ public class GUI {
     private String[] endfiles = {"Download all", "Raumplan", "Laufzettel", "Anwesenheitsliste"};
     private JComboBox<String> more = new JComboBox<>(endfiles); // Auswahlbox für Downloads
     private Map<String, File> dropPanelFiles = new HashMap<>(); // Speicherung der Dateien
-    private JButton infoButton = new JButton("i");
-    private JTextArea textArea = new JTextArea();
+    private JButton infoButton = new JButton("Info");
 
     public GUI() {
         frame.setSize(1100, 500);
@@ -39,7 +37,7 @@ public class GUI {
         mainPanel.add(titelLabel);
         frame.add(mainPanel);
 
-        infoButton.setPreferredSize(new Dimension(40, 30));
+        infoButton.setPreferredSize(new Dimension(60, 30));
         infoButton.setToolTipText("Mehr Infos anzeigen");
         infoButton.setFocusPainted(false); // Kein Fokus-Effekt
         infoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -190,8 +188,6 @@ public class GUI {
     }
 
 
-    //TODO: das problem liegt daran das oben wo die funktion aufgerufen wird die datein nicht richtig geladen werden also muss das irgendwie abgeändert werden
-
     // Lädt den Inhalt der Markdown-Datei
     private String loadMarkdownFile(String fileName) {
         StringBuilder content = new StringBuilder();
@@ -212,8 +208,6 @@ public class GUI {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Fehler beim Laden der Datei.");
         }
-
-        System.out.println(content.toString());
 
         return content.toString();
     }
@@ -240,25 +234,20 @@ public class GUI {
     }
     private void jumpToSection(String section, JEditorPane htmlPane) {
         String fileName = "";
-        String fileContent = "";  // Variable zum Speichern des Inhalts der geladenen Datei
 
         // Bestimme die zu ladende Datei anhand des Abschnitts
         switch (section) {
             case "StepbyStep":
                 fileName = "StepbyStep.md";
-                fileContent = loadMarkdownFile(fileName);
                 break;
             case "DragnDrop":
                 fileName = "DragnDrop.md";
-                fileContent = loadMarkdownFile(fileName);
                 break;
             case "Download":
                 fileName = "Download.md";
-                fileContent = loadMarkdownFile(fileName);
                 break;
             case "Erfüllungsscore":
                 fileName = "Erfüllungsscore.md";
-                fileContent = loadMarkdownFile(fileName);
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Abschnitt nicht gefunden: " + section);
