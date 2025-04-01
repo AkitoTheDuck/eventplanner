@@ -1,5 +1,6 @@
 package FileWriter;
 
+import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import FileWriterHelper.ExcelCell;
 import org.apache.poi.ss.usermodel.*;
@@ -11,6 +12,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+/**
+ * @author Christian
+ */
 public class CompanyTimeTableWriter extends FileWriter <Company> {
 
 
@@ -136,6 +140,40 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
             nameCell.applyBold();
             nameCell.applyTextHorizontal(HorizontalAlignment.LEFT);
             nameCell.applyToSheet(sheet);
+
+            for (int i = 0; i <= 4; i++) {
+
+                ClassRoom classRoom = null;
+                switch (i) {
+                    case 0:
+                        classRoom = company.getSlotAClass();
+                        break;
+                    case 1:
+                        classRoom = company.getSlotBClass();
+                        break;
+                    case 2:
+                        classRoom = company.getSlotCClass();
+                        break;
+                    case 3:
+                        classRoom = company.getSlotDClass();
+                        break;
+                    case 4:
+                        classRoom = company.getSlotEClass();
+                        break;
+                }
+
+                if(classRoom != null) {
+                    ExcelCell cell = new ExcelCell(classRoom.getRoomNumber(), rowCount, i+1, workbook);
+                    cell.applyAllBorder(BorderStyle.THIN);
+                    cell.applyBold();
+                    cell.applyToSheet(sheet);
+                } else {
+                    ExcelCell cell = new ExcelCell("", rowCount, i+1, workbook);
+                    cell.applyAllBorder(BorderStyle.THIN);
+                    cell.applyToSheet(sheet);
+                }
+
+            }
 
             rowCount++;
         }
