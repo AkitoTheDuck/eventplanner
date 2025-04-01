@@ -13,77 +13,60 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Christian
+ *
+ * Diese Klasse liest eine Excel-Datei und extrahiert Informationen über Unternehmen.
+ * Sie verwendet Apache POI, um die Excel-Datei zu verarbeiten und eine Liste
+ * von Company-Objekten zu erstellen.
+ */
 public class CompanyReader extends FileReader<Company> {
-
 
     private String filename;
 
     public CompanyReader(String filename) {
-        this.filename = filename;
+        super(filename);
     }
 
     @Override
     public ArrayList<Company> parse() {
         ArrayList<Company> companyArrayList = new ArrayList<>();
-        try {
-            FileInputStream file = new FileInputStream(new File(this.filename));
-
-            Workbook workbook = new XSSFWorkbook(file);
+        try (Workbook workbook = openWorkbook()) {
             Sheet sheet = workbook.getSheetAt(0);
+            Map<Integer, String> headers = getHeaders(sheet);
+            ArrayList<Map<String, String>> rows = extractRows(sheet, headers);
 
-
-            Row headerRow = sheet.getRow(0);
-            Map<Integer, String> headers = new HashMap<>();
-            for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
-                headers.put(i, headerRow.getCell(i).getStringCellValue().trim());
-            }
-
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row row = sheet.getRow(i);
-                if (row == null) continue;
-
-                Map<String, String> lineMap = new HashMap<>();
-
-                for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
-                    String header = headers.get(j);
-                    String value = getCellValue(row.getCell(j));
-                    lineMap.put(header, value);
-                }
-
-
+            for (Map<String, String> lineMap : rows) {
                 String nr = lineMap.get("Nr.");
                 String companyName = lineMap.get("Unternehmen");
                 String fieldOfStudy = lineMap.get("Fachrichtung");
+                int max = parseInteger(lineMap.get("Max. Teilnehmer"));
+                int intMaxE = parseInteger(lineMap.get("Max. Veranstaltungen"));
+                int earliest = parseEarliestSlot(lineMap.get("Frühester Zeitpunkt"));
 
-                String maxS = lineMap.get("Max. Teilnehmer");
-                int max;
-                if(maxS == null) {
-                    max = 0;
-                } else {
-                    max = Integer.parseInt(maxS);
-                }
-
-                String maxE = lineMap.get("Max. Veranstaltungen");
-                int intMaxE;
-                if(maxE == null) {
-                    intMaxE = 0;
-                } else {
-                    intMaxE = Integer.parseInt(maxE);
-                }
-
-                String earliest = lineMap.get("Frühester Zeitpunkt");
-
-                Company company = new Company(nr,companyName,fieldOfStudy,max, intMaxE,earliest);
-
+                Company company = new Company(nr, companyName, fieldOfStudy, max, intMaxE, earliest);
                 companyArrayList.add(company);
             }
 
-            workbook.close();
-
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
         return companyArrayList;
+    }
+
+    private int parseInteger(String value) {
+        return (value == null) ? 0 : Integer.parseInt(value);
+    }
+
+    private int parseEarliestSlot(String slot) {
+        if (slot == null) return 1;  // Default value "A"
+        return switch (slot) {
+            case "A" -> 1;
+            case "B" -> 2;
+            case "C" -> 3;
+            case "D" -> 4;
+            case "E" -> 5;
+            default -> 1;
+        };
     }
 }

@@ -80,8 +80,6 @@ public class Assigner {
                     break;
             }
         }
-
-        System.out.println("Score: " + score);
     }
 
     public void assign(){
@@ -138,5 +136,6 @@ public class Assigner {
                 break;
             }
         }
+        System.out.println("Score: " + score);
     }
 }
