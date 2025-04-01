@@ -1,7 +1,9 @@
 package FileWriter;
 
 import DataWrapper.Company;
+import DataWrapper.Student;
 import FileReader.CompanyReader;
+import FileReader.StudentReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 public class Test {
 
     public static void main(String[] args) throws IOException {
+
 
         String filename3 = "ressources/import/2024/Veranstaltungen.xlsx";
         CompanyReader coReader = new CompanyReader(filename3);
@@ -20,5 +23,11 @@ public class Test {
         FileWriter<Company> writer = new AttendanceListWriter();
         writer.write(companies);
 
+        String filename4 = "ressources/import/2024/Wahl BOT 23_24.xlsx";
+        StudentReader studentReader = new StudentReader(filename4);
+        ArrayList<Student> students = studentReader.parse();
+
+        FileWriter<Student> studentFileWriter = new StudentScheduleWriter();
+        studentFileWriter.write(students);
     }
 }

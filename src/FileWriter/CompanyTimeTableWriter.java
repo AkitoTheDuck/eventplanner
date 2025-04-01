@@ -23,6 +23,7 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
 
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Raumplan");
+        String filePath = "U:\\Documents\\Downloads\\";
 
         IndexedColors grey = IndexedColors.GREY_25_PERCENT;
 
@@ -185,7 +186,7 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
 
         try {
 
-            FileOutputStream out = new FileOutputStream(new File("src/timeTable.xlsx"));
+            FileOutputStream out = new FileOutputStream(new File(filePath + "Raumplan.xlsx"));
             workbook.write(out);
             out.close();
             System.out.println("test1.xlsx written successfully on disk.");

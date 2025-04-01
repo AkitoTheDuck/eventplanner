@@ -30,5 +30,14 @@
         <jarDirectory url="file://$MODULE_DIR$/lib/ApachePoi/ooxml-lib" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/CommonMark/commonmark-0.18.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
