@@ -1,8 +1,11 @@
 # Event Planer Dokumentation
 
-## Inhaltsverzeichnis
-- [Einleitung](src/Doku/einleitung.md)
-- [Anforderungen](src/Doku/anforderungen.md)
+## Einleitung
+- [Projektbeschreibung- und Ziel](src/Doku/projektbeschreibung)
+- [App-Download](src/Doku/download.md)
+
+## Technische Dokumentation
+- [Anforderungen](src/Doku/anforderung.md)
 - [Installation & Setup](src/Doku/installation.md)
 
 ## Weitere Dokumentation:
