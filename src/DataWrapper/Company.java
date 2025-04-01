@@ -1,7 +1,6 @@
 package DataWrapper;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Company extends DataWrapper {
 

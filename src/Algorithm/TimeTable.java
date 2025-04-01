@@ -2,7 +2,10 @@ package Algorithm;
 
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
+import DataWrapperSorter.CompanySorter;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TimeTable {
 
@@ -15,6 +18,10 @@ public class TimeTable {
     }
 
     public void assign() {
+
+        CompanySorter sorter = new CompanySorter();
+        sorter.sortByStudentsCount(companies);
+
         // Für jedes Unternehmen den Raum zuweisen
         for (Company company : companies) {
             int timeSlotsNeeded = company.calcAmountEvents();
@@ -41,7 +48,28 @@ public class TimeTable {
                         continue;
                     }
 
-                    // Überprüfe, ob der Raum ab dem aktuellen Slot und für die benötigten Slots verfügbar ist
+                    if(studentsPerSlot <= 10) {
+                        if(capacity != studentsPerSlot) {
+                            continue;
+                        }
+                    }
+
+                    if (isEarliestSlotAvailable(room, timeSlotsNeeded, startSlot)) {
+                        selectedRoom = room;
+                        selectedStartSlot = startSlot;
+                        break outerLoop; // Sobald ein Raum und Slot gefunden sind, bricht die Suche ab
+                    }
+                }
+
+                startSlot++;
+                for (ClassRoom room : classRooms) {
+                    int capacity = Integer.parseInt(room.getCapacity());
+
+                    // Überprüfe, ob der Raum genügend Kapazität für alle Schüler pro Slot hat
+                    if (capacity < studentsPerSlot) {
+                        continue;
+                    }
+
                     if (isRoomAvailableForSlots(room, timeSlotsNeeded, startSlot)) {
                         selectedRoom = room;
                         selectedStartSlot = startSlot;
@@ -53,8 +81,13 @@ public class TimeTable {
             // Wenn ein Raum gefunden wurde, weisen wir alle Slots zu
             if (selectedRoom != null && selectedStartSlot != -1) {
                 assignSlotsToRoom(selectedRoom, timeSlotsNeeded, selectedStartSlot, company);
+            } else {
+                // Wenn kein Raum für das Unternehmen gefunden wurde, gebe eine Warnung oder führe alternative Logik aus
+                System.out.println("Kein passender Raum für " + company.getName() + " gefunden.");
             }
         }
+
+        sorter.sortByNr(companies);
     }
 
     private void assignSlotsToRoom(ClassRoom room, int timeSlotsNeeded, int earliest, Company company) {
@@ -114,7 +147,7 @@ public class TimeTable {
             case 3 -> classRoom.getSlotC();
             case 4 -> classRoom.getSlotD();
             case 5 -> classRoom.getSlotE();
-            default -> true; // Ungültiger Slot
+            default -> throw new IllegalStateException("Unexpected value: " + slot);
         };
     }
 
@@ -136,5 +169,15 @@ public class TimeTable {
             }
         }
         return false; // Der Raum ist nicht verfügbar
+    }
+
+    private boolean isEarliestSlotAvailable(ClassRoom room, int timeSlotsNeeded, int earliest) {
+        // Überprüfe, ob alle benötigten Slots im Raum ab dem Start-Slot frei sind
+        for (int slot = earliest; slot < earliest + timeSlotsNeeded; slot++) {
+            if (isSlotOccupied(room, slot)) {
+                return false; // Ein Slot ist besetzt, also nicht verfügbar
+            }
+        }
+        return true; // Alle benötigten Slots sind frei
     }
 }
