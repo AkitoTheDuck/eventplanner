@@ -1,12 +1,12 @@
 package GUI;
 
 
+import Assigner.Assigner;
+import DataWrapper.ClassRoom;
 import DataWrapper.Company;
-import FileReader.ClassRoomReader;
-import FileReader.CompanyReader;
-import FileReader.StudentReader;
-import FileWriter.CompanyTimeTableWriter;
-import FileWriter.FileWriter;
+import DataWrapper.Student;
+import FileReader.*;
+import FileWriter.*;
 
 import javax.swing.*;
 import java.io.File;
@@ -36,8 +36,7 @@ public class GUI_Download {
         }
     }
 
-    //TODO: wir brauchen den Algorithmus von Kilian,welcher zu erst alle datein einlist, dannach soll erst die switch case funktion ausgeführt werden
-
+    //durchläuft die Zuweisung und schreibt dann die ausgewählte Datei
     public void executeAlgorithm(String selectedOption, Map<String, File> dropPanelFiles) {
         String filePath1 = String.valueOf(dropPanelFiles.get("Schülerauswahl"));
         String filePath2 = String.valueOf(dropPanelFiles.get("Veranstaltungsliste"));
@@ -47,18 +46,31 @@ public class GUI_Download {
         StudentReader stReader = new StudentReader(filePath1);
         ClassRoomReader clReader = new ClassRoomReader(filePath3);
 
+        FileWriter<Company> raumplan = new CompanyTimeTableWriter();
+        FileWriter<Student> laufzettel = new StudentScheduleWriter();
+        FileWriter<Company> anwesendheit = new AttendanceListWriter();
+
+        ArrayList<Company> companies =  coReader.parse();
+        ArrayList<Student> students =  stReader.parse();
+        ArrayList<ClassRoom> rooms =  clReader.parse();
+
+        //Assigner assigner = new Assigner(students, companies, rooms);
+        //assigner.assign();
+
         switch (selectedOption) {
             case "Download all":
+                raumplan.write(companies);
+                laufzettel.write(students);
+                anwesendheit.write(companies);
                 break;
             case "Raumplan":
-                ArrayList<Company> companies =  coReader.parse();
-                FileWriter<Company> writer = new CompanyTimeTableWriter();
-                writer.write(companies);
+                raumplan.write(companies);
                 break;
             case "Laufzettel":
-                //TODO: Maxims code einbinden, ähnlich wie bei Raumplan (Christian)
+                laufzettel.write(students);
                 break;
             case"Anwesenheitsliste":
+                anwesendheit.write(companies);
                 break;
         }
     }
