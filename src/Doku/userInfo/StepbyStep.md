@@ -18,7 +18,7 @@ Die Spaltennamen sind in den Dateien wie folgt:
 - **Schülerwahl**  
 Klasse; Vorname; Nachname; Wahl 1; Wahl 2; Wahl 3; Wahl 4; Wahl 5; Wahl 6 (Erstazwunsch)
 - **Veranstaltungsliste**  
-Nr.;Unternehmen;Fachrichtung;Max. Teilnehmer;Max. Veranstaltungen;Frühester Zeitpukt
+Nr.; Unternehmen; Fachrichtung; Max. Teilnehmer; Max. Veranstaltungen; Frühester Zeitpukt
 - **Raumliste**  
 Raum; Kapazität
 
