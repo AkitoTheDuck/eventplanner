@@ -1,7 +1,8 @@
 package DataWrapper;
 
-import java.util.Map;
-
+/**
+ * @author Christian
+ */
 public class ClassRoom extends DataWrapper{
 
     private String roomNumber;

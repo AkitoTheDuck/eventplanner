@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+/**
+ * @author Christian
+ */
 public class AttendanceListWriter extends FileWriter<Company>{
 
     private XSSFWorkbook workbook;

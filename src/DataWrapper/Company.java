@@ -2,6 +2,9 @@ package DataWrapper;
 
 import java.util.ArrayList;
 
+/**
+ * @author Christian
+ */
 public class Company extends DataWrapper {
 
     private String nr;
