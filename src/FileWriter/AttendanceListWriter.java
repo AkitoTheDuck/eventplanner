@@ -22,7 +22,13 @@ public class AttendanceListWriter extends FileWriter<Company>{
     @Override
     public void write(ArrayList<Company> list) {
 
+        if (list == null || list.isEmpty()) {
+            System.out.println("Keine CompanyDaten zum Schreiben vorhanden.");
+            return;
+        }
+
         this.workbook = new XSSFWorkbook();
+        String filePath = "U:\\Documents\\Downloads\\";
 
         int sheetCount = 0;
         for (Company company : list) {
@@ -49,10 +55,10 @@ public class AttendanceListWriter extends FileWriter<Company>{
         }
 
         try {
-            FileOutputStream out = new FileOutputStream(new File("src/FileWriter/testAttendance.xlsx"));
+            FileOutputStream out = new FileOutputStream(new File(filePath + "Anwesenheitsliste.xlsx"));
             workbook.write(out);
             out.close();
-            System.out.println("test1.xlsx written successfully on disk.");
+            System.out.println("ANWESENHEITSLISTE geschrieben");
         } catch (Exception e) {
             e.printStackTrace();
         }
