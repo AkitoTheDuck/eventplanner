@@ -1,9 +1,14 @@
 package DataWrapper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Company extends DataWrapper {
 
+    //alle wünsche auf einmal nicht 1. wunsch und dann die anderen
+    //classRooms und slotXClass müssen getauscht werden
+    //in finale liste muss hinzugefügt werden beim hinzufügen der students
+    //wenn slot X im raum y schon voll ist was ist mit dem nächsten Slot?
     private String nr;
 
     private String name;
@@ -16,17 +21,16 @@ public class Company extends DataWrapper {
 
     private int earliestStart;
 
-    private ArrayList<Student> slotA = new ArrayList<>();
-    private ArrayList<Student> slotB = new ArrayList<>();
-    private ArrayList<Student> slotC = new ArrayList<>();
-    private ArrayList<Student> slotD = new ArrayList<>();
-    private ArrayList<Student> slotE = new ArrayList<>();
+    private ArrayList<ArrayList<Student>> studentSlotList = new ArrayList<>();
 
     private ClassRoom slotAClass;
     private ClassRoom slotBClass;
     private ClassRoom slotCClass;
     private ClassRoom slotDClass;
     private ClassRoom slotEClass;
+    private ArrayList<ClassRoom> roomList = new ArrayList<>();
+
+
 
     private ArrayList<Student> schuelerListe = new ArrayList<>();
 
@@ -37,6 +41,18 @@ public class Company extends DataWrapper {
         setMaxStudents(maxStudents);
         setmaxEvents(maxEvents);
         setEarliestStart(earliestStart);
+        this.roomList.add(null);
+        this.roomList.add(null);
+        this.roomList.add(null);
+        this.roomList.add(null);
+        this.roomList.add(null);
+        studentSlotList.add(new ArrayList<>());
+        studentSlotList.add(new ArrayList<>());
+        studentSlotList.add(new ArrayList<>());
+        studentSlotList.add(new ArrayList<>());
+        studentSlotList.add(new ArrayList<>());
+
+
     }
 
     public int calcAmountEvents() {
@@ -152,45 +168,9 @@ public class Company extends DataWrapper {
         schuelerListe.add(schueler);
     }
 
-    public ArrayList<Student> getSlotA() {
-        return slotA;
-    }
+    public ArrayList<ArrayList<Student>> getStudenSlotsList() {return this.studentSlotList; }
 
-    public void setSlotA(ArrayList<Student> slotA) {
-        this.slotA = slotA;
-    }
-
-    public ArrayList<Student> getSlotB() {
-        return slotB;
-    }
-
-    public void setSlotB(ArrayList<Student> slotB) {
-        this.slotB = slotB;
-    }
-
-    public ArrayList<Student> getSlotC() {
-        return slotC;
-    }
-
-    public void setSlotC(ArrayList<Student> slotC) {
-        this.slotC = slotC;
-    }
-
-    public ArrayList<Student> getSlotD() {
-        return slotD;
-    }
-
-    public void setSlotD(ArrayList<Student> slotD) {
-        this.slotD = slotD;
-    }
-
-    public ArrayList<Student> getSlotE() {
-        return slotE;
-    }
-
-    public void setSlotE(ArrayList<Student> slotE) {
-        this.slotE = slotE;
-    }
+    public ArrayList<ClassRoom> getRoomList() { return this.roomList; }
 
     public ArrayList<Student> getSchuelerListe() {
         return schuelerListe;
@@ -198,5 +178,22 @@ public class Company extends DataWrapper {
 
     public void setSchuelerListe(ArrayList<Student> schuelerListe) {
         this.schuelerListe = schuelerListe;
+    }
+
+    public static String getSlot(int slotNumber){
+        switch(slotNumber){
+            case 1:
+                return "A";
+            case 2:
+                return "B";
+            case 3:
+                return "C";
+            case 4:
+                return "D";
+            case 5:
+                return "E";
+            default:
+                return "";
+        }
     }
 }

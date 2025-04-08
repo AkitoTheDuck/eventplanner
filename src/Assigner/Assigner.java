@@ -30,7 +30,7 @@ public class Assigner {
      * @author MafffimGit
      */
     public static double calcScore(int studentCount, int points){
-        return (double) points / studentCount * 20;
+        return (double) points / (studentCount * 20);
     }
 
     /**
@@ -38,46 +38,19 @@ public class Assigner {
      * @author MaffimGit, AkitoTheDuck
      */
     public void assignPupil(int iteration, int wish, Student schueler) {
-        //System.out.println("Veranstaltung " + wish);
-        //System.out.println("Iteration " + iteration);
-        int wishFulfilled = 0;
 
         if(wish != 0){
+            System.out.println("===============================================");
             if(companies.get(wish - 1).getMaxStudents() < companies.get(wish - 1).getMaxStudents()*companies.get(wish - 1).getMaxEvents() && schueler.getWishFulfilled() < 5){
                 companies.get(wish - 1).addSchueler(schueler);
-                //System.out.println("Schüler " + schueler.getLastName() + ", " + schueler.getFirstName() + " in " + companies.get(wish - 1).getName() + " hinzugefügt!");
-                wishFulfilled++;
+                System.out.println("Schüler " + schueler.getLastName() + ", " + schueler.getFirstName() + " in " + companies.get(wish - 1).getName() + " hinzugefügt!");
                 schueler.iterateWishFulfilled();
-                //System.out.println("Aktuelle Anzahl an Wünsche erfüllt für " + schueler.getLastName() + ", " + schueler.getFirstName() + ": " + schueler.getWishFulfilled());
+                System.out.println("Aktuelle Anzahl an Wünsche erfüllt für " + schueler.getLastName() + ", " + schueler.getFirstName() + ": " + schueler.getWishFulfilled());
             }
             else{
-                //System.out.println("Kapazität von " + companies.get(wish - 1).getName() + " erreicht!");
-                //System.out.println("--------------------------------");
+                System.out.println("Kapazität von " + companies.get(wish - 1).getName() + " erreicht!");
+                System.out.println("--------------------------------");
                 fullKap = true;
-            }
-        }
-
-        //calculate score
-        if(wishFulfilled == 1){
-            switch(iteration){
-                case 1:
-                    score += wishFulfilled*6;
-                    break;
-                case 2:
-                    score += wishFulfilled*5;
-                    break;
-                case 3:
-                    score += wishFulfilled*4;
-                    break;
-                case 4:
-                    score += wishFulfilled*3;
-                    break;
-                case 5:
-                    score += wishFulfilled*2;
-                    break;
-                case 6:
-                    score += wishFulfilled;
-                    break;
             }
         }
     }
@@ -136,6 +109,5 @@ public class Assigner {
                 break;
             }
         }
-        System.out.println("Score: " + score);
     }
 }
