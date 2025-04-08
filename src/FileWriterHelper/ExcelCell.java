@@ -5,6 +5,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * @author Christian
+ *
+ * Diese Klasse soll das benutzen der ApachePOIvereinfachen
  */
 public class ExcelCell {
 

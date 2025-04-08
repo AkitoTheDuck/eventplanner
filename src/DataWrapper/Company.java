@@ -1,8 +1,10 @@
 package DataWrapper;
 
 import java.util.ArrayList;
-import java.util.Map;
 
+/**
+ * @author Christian
+ */
 public class Company extends DataWrapper {
 
     private String nr;

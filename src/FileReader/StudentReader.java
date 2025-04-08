@@ -17,6 +17,10 @@ import java.util.Map;
 
 /**
  * @author Christian
+ *
+ * * Diese Klasse liest eine Excel-Datei und extrahiert Informationen über Unternehmen.
+ *  * Sie verwendet Apache POI, um die Excel-Datei zu verarbeiten und eine Liste
+ *  * von Student-Objekten zu erstellen.
  */
 public class StudentReader extends FileReader <Student> {
 
