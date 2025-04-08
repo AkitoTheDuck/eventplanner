@@ -21,6 +21,11 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
     @Override
     public void write(ArrayList<Company> list) {
 
+        if (list == null || list.isEmpty()) {
+            System.out.println("Keine CompanyDaten zum Schreiben vorhanden.");
+            return;
+        }
+
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Raumplan");
         String filePath = "U:\\Documents\\Downloads\\";
@@ -189,7 +194,7 @@ public class CompanyTimeTableWriter extends FileWriter <Company> {
             FileOutputStream out = new FileOutputStream(new File(filePath + "Raumplan.xlsx"));
             workbook.write(out);
             out.close();
-            System.out.println("test1.xlsx written successfully on disk.");
+            System.out.println("RAUMPLAN geschrieben");
         } catch (Exception e) {
             e.printStackTrace();
         }

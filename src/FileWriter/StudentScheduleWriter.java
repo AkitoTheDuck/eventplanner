@@ -51,7 +51,7 @@ public class StudentScheduleWriter extends FileWriter<Student> {
             FileOutputStream out = new FileOutputStream(new File( filePath + "Laufzettel.xlsx"));
             workbook.write(out);
             out.close();
-            System.out.println("Laufzettel.xlsx erfolgreich gespeichert.");
+            System.out.println("LAUFZETTEL geschrieben");
 
         } catch (IOException e) {
             System.out.println("Fehler beim Schreiben der Excel-Datei: " + e.getMessage());
@@ -73,11 +73,11 @@ public class StudentScheduleWriter extends FileWriter<Student> {
         nameCell.applyBold();
         nameCell.applyFontSize((short) 12);
         nameCell.applyToSheet(sheet);
-        sheet.addMergedRegion(new CellRangeAddress(row, row, 0, 3));
+        sheet.addMergedRegion(new CellRangeAddress(row, row, 0, 4));
         row++;
 
         // Tabellen-Header: Zeit, Raum, Veranstaltung, Wunsch
-        String[] headers = {"Zeit", "Raum", "Veranstaltung", "Wunsch"};
+        String[] headers = {"Zeit", "Raum", "Veranstaltung","", "Wunsch"};
         for (int i = 0; i < headers.length; i++) {
             ExcelCell headerCell = new ExcelCell(headers[i], row, i, workbook);
             headerCell.applyBold();
@@ -91,6 +91,8 @@ public class StudentScheduleWriter extends FileWriter<Student> {
         String[] timeSlots = {"08:45-9:30", "9:50-10:35", "10:35-11:20", "11:40-12:25", "12:25-13:10"};
         int[] choices = {student.getChoice1(), student.getChoice2(), student.getChoice3(), student.getChoice4(), student.getChoice5()};
 
+        //TODO TODO TODO muss noch angepasst werden für echte Raum, Veranstaltung, Wunsch
+
         for (int i = 0; i < timeSlots.length; i++) {
             ExcelCell timeCell = new ExcelCell(timeSlots[i], row, 0, workbook);
             timeCell.applyToSheet(sheet);
@@ -100,27 +102,33 @@ public class StudentScheduleWriter extends FileWriter<Student> {
             ExcelCell roomCell = new ExcelCell("311", row, 1, workbook);
             roomCell.applyToSheet(sheet);
 
-            ExcelCell eventCell = new ExcelCell("Veranstaltung " + choices[i], row, 2, workbook);
-            eventCell.applyToSheet(sheet);
-            eventCell.setBorder(ExcelCell.BorderPosition.LEFT,BorderStyle.THIN);
-            eventCell.setBorder(ExcelCell.BorderPosition.RIGHT,BorderStyle.THIN);
+            ExcelCell eventCellname = new ExcelCell("Veranstaltung " + choices[i], row, 2, workbook);
+            eventCellname.applyToSheet(sheet);
+            eventCellname.setBorder(ExcelCell.BorderPosition.LEFT,BorderStyle.THIN);
+            eventCellname.setBorder(ExcelCell.BorderPosition.RIGHT,BorderStyle.THIN);
 
-            ExcelCell wishCell = new ExcelCell(String.valueOf(i + 1), row, 3, workbook);
+            ExcelCell eventCellFachrichtung = new ExcelCell("", row, 3, workbook);
+            eventCellFachrichtung.applyToSheet(sheet);
+            eventCellFachrichtung.setBorder(ExcelCell.BorderPosition.LEFT,BorderStyle.THIN);
+            eventCellFachrichtung.setBorder(ExcelCell.BorderPosition.RIGHT,BorderStyle.THIN);
+
+            ExcelCell wishCell = new ExcelCell(String.valueOf(i + 1), row, 4, workbook);
             wishCell.applyToSheet(sheet);
+            wishCell.applyTextHorizontal(HorizontalAlignment.CENTER);
             wishCell.setBorder(ExcelCell.BorderPosition.LEFT,BorderStyle.THIN);
             wishCell.setBorder(ExcelCell.BorderPosition.RIGHT,BorderStyle.MEDIUM);
 
             if(row == startRow+timeSlots.length+1) {
                 timeCell.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.MEDIUM);
                 roomCell.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.MEDIUM);
-                eventCell.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.MEDIUM);
+                eventCellname.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.MEDIUM);
+                eventCellFachrichtung.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.MEDIUM);
                 wishCell.setBorder(ExcelCell.BorderPosition.BOTTOM,BorderStyle.MEDIUM);
             }
             row++;
         }
 
-
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             sheet.autoSizeColumn(i);
         }
 

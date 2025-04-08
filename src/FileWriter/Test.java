@@ -20,8 +20,8 @@ public class Test {
         //FileWriter<Company> writer = new CompanyTimeTableWriter();
         //writer.write(companies);
 
-        FileWriter<Company> writer = new AttendanceListWriter();
-        writer.write(companies);
+        //FileWriter<Company> writer = new AttendanceListWriter();
+        //writer.write(companies);
 
         String filename4 = "ressources/import/2024/Wahl BOT 23_24.xlsx";
         StudentReader studentReader = new StudentReader(filename4);

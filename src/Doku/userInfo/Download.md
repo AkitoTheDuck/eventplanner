@@ -3,7 +3,7 @@
 ## **Was macht die Auswahl-Box?**
 Die Auswahl-Box ist eine kleine Auswahlliste, mit der du entscheiden kannst, welche Datei du herunterladen möchtest.
 
-In deinem Programm hat die Combo-Box folgende vier Auswahlmöglichkeiten:
+In deinem Programm hat die Auswahl-Box folgende vier Auswahlmöglichkeiten:
 
 - **Download all**: Alle verarbeiteten Dateien herunterladen
 
