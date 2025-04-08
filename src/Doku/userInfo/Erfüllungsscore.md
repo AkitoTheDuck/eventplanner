@@ -5,9 +5,6 @@ Der Erfüllungsscore misst, wie gut die Wünsche der Schüler (SuS) erfüllt wur
 
 
 ## **Wie wird der Erfüllungsscore berechnet?**
-Die Formel zur Berchnung ist folgende:
-
-![Berechnungsformel](bilder\mathematischeFormel.jpg)
 
 - **Gewichtung der Wünsche**:
 
