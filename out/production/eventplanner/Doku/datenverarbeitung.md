@@ -1,4 +1,4 @@
-## 5. Datenverarbeitung
+## 6. Datenverarbeitung
 
 Die Schüler:innen geben ihre Wünsche in einer Excel-Tabelle an. Jede Zeile enthält die Schüler-ID und die Wunschunternehmen (bis zu 6 Wünsche pro Schüler).
 
