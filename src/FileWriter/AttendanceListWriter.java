@@ -43,7 +43,7 @@ public class AttendanceListWriter extends FileWriter<Company>{
             cellCompanyName.applyFontSize((short) 16);
             cellCompanyName.applyToSheet(sheet);
 
-            int rowCounter = 3;
+            int rowCounter = 2;
 
             rowCounter = printTimeSlots("8:45 – 9:30", company.getStudenSlotsList().get(0), rowCounter, sheet);
             rowCounter = printTimeSlots("9:50 - 10:35", company.getStudenSlotsList().get(1), rowCounter, sheet);
@@ -68,7 +68,9 @@ public class AttendanceListWriter extends FileWriter<Company>{
         if( ! students.isEmpty()) {
             rowCounter ++;
             printSlot(timeSlot, rowCounter, sheet);
+            rowCounter ++;
             printStudentHeader(rowCounter, sheet);
+            rowCounter ++;
             for (Student student : students) {
                 printStudent(student, rowCounter, sheet);
                 rowCounter++;
