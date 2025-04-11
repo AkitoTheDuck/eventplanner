@@ -1,17 +1,17 @@
-## 2. Anforderungen
+## 4. Anforderungen
 
-### 2.1 Technische Anforderungen
+### 4.1 Technische Anforderungen
 
 Um eine reibungslose Planung und Durchführung zu gewährleisten, müssen folgende technische Anforderungen erfüllt werden:
 
 - Verwendung einer **Java-Swing-GUI** mit Drag-and-Drop-Funktionalität
-- Verarbeitung von **drei hochgeladenen Dateien** (Excel- und Textdateien)
+- Verarbeitung von **drei hochgeladenen Dateien** (Exceldateien)
 - Algorithmen zur **Wunscherfüllung**, basierend auf Schülerangaben in einer **Excel-Tabelle**
 - Möglichkeit zum **Herunterladen verarbeiteter Dateien**
 - Unterstützung verschiedener Download-Optionen (Einzel- und Gesamtdownload)
 - **Java 8 oder höher** als Entwicklungsumgebung
 
-### 2.2 Funktionale Anforderungen
+### 4.2 Funktionale Anforderungen
 
 Das Projekt soll die folgenden funktionalen Anforderungen erfüllen:
 

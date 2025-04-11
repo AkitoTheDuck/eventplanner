@@ -3,6 +3,9 @@ package DataWrapper;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * @author Christian
+ */
 public class Company extends DataWrapper {
 
     //alle wünsche auf einmal nicht 1. wunsch und dann die anderen
