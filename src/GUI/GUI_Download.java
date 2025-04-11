@@ -82,7 +82,7 @@ public class GUI_Download {
         int iter = 0;
         for(Student student : students){
             if(student.getNotFulFilled().size() > 1){
-                System.out.println("Schüler " + student.getFirstName() + " hat nicht alle Zuweisungen");
+                System.out.println("Schüler " + student.getFirstName() + " hat nicht alle Zuweisungen erhalten");
                 System.out.println("Zahl: " + iter);
             }
             iter++;
