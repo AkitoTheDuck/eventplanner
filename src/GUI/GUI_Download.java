@@ -105,7 +105,11 @@ public class GUI_Download {
                 break;
         }
 
-        JOptionPane.showMessageDialog(null,"Erfüllungsscore: " + EventAssigner.gewichtung(students.size()));
+        double fulfilmentScore = EventAssigner.gewichtung(students.size());
+        fulfilmentScore = fulfilmentScore * 100;
+        String formattedScore = String.format("%.2f", fulfilmentScore);
+        JOptionPane.showMessageDialog(null, "Erfüllungsscore: " + formattedScore + "%");
+
         EventAssigner.score = 0;
     }
 }

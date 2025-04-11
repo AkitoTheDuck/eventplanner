@@ -99,7 +99,7 @@ public class EventAssigner {
                         if(student.getNotFulFilled().get(i) == Integer.parseInt(company.getNr())){
                             for(int j = 0; j < student.getAssignings().size(); j++){
                                 if(!student.getAssignings().get(j)){
-                                    if(company.getStudenSlotsList().get(j).size() < company.getMaxStudents()){
+                                    if(company.getStudenSlotsList().get(j).size() < company.getMaxStudents() && company.getRoomList().get(j) != null){
                                         company.getStudenSlotsList().get(j).add(student);
                                         student.setAssigned(j, Integer.parseInt(company.getNr()));
                                         student.finalListByNumber(j, company, student.getNotFulFilled().get(i));
@@ -117,7 +117,7 @@ public class EventAssigner {
                     else{
                         for(int j = 0; j < student.getAssignings().size(); j++){
                             if(!student.getAssignings().get(j)){
-                                if(company.getStudenSlotsList().get(j).size() < company.getMaxStudents()){
+                                if(company.getStudenSlotsList().get(j).size() < company.getMaxStudents()  && company.getRoomList().get(j) != null){
                                     company.getStudenSlotsList().get(j).add(student);
                                     student.setAssigned(j, Integer.parseInt(company.getNr()));
                                     student.finalListByNumber(j, company, Integer.parseInt(company.getNr()));
