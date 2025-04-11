@@ -7,7 +7,6 @@ import DataWrapper.Company;
 import DataWrapper.Student;
 import FileReader.*;
 import FileWriter.*;
-
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +33,10 @@ public class GUI_Download {
             System.out.println("Herunterladen: " + processedFile.getAbsolutePath());
             JOptionPane.showMessageDialog(null,selectedOption + " wurde heruntergeladen");
         }
+    }
+
+    private void fulfillmentScore(){
+        JOptionPane.showMessageDialog(null, "Erfüllungsscore: ");
     }
 
     //durchläuft die Zuweisung und schreibt dann die ausgewählte Datei
@@ -73,5 +76,7 @@ public class GUI_Download {
                 anwesendheit.write(companies);
                 break;
         }
+
+        fulfillmentScore();
     }
 }
