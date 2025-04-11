@@ -9,6 +9,9 @@ public class EventAssigner {
 
     private static int score = 0;
 
+    /*
+    @author AkitoTheDuck, MrsNoName
+     */
     public void assignPupil(ArrayList<Company> companies){
         for(int index = 0; index < 6; index++){
             for(Company company : companies) {
@@ -86,11 +89,8 @@ public class EventAssigner {
     }
 
     /*
-herausfinden welche wünsche noch nicht erfüllt
-
-in assigings schauen was false ist
-für jeden nicht erfüllten wunsch in jeden slot schauen ob man noch assignen könnte
- */
+    @author AkitoTheDuck, MrsNoName
+     */
     public void assignRestWishes(ArrayList<Student> students, ArrayList<Company> companies, int modus) {
         for(Company company : companies){
             for(Student student : company.getSchuelerListe()){
