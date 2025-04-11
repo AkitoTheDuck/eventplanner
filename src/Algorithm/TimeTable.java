@@ -146,14 +146,20 @@ public class TimeTable {
 
     private boolean isSlotOccupied(ClassRoom classRoom, int slot) {
         // Überprüfe, ob der Slot im Raum besetzt ist
-        return switch (slot) {
-            case 1 -> classRoom.getSlotA();
-            case 2 -> classRoom.getSlotB();
-            case 3 -> classRoom.getSlotC();
-            case 4 -> classRoom.getSlotD();
-            case 5 -> classRoom.getSlotE();
-            default -> throw new IllegalStateException("Unexpected value: " + slot);
-        };
+        switch (slot) {
+            case 1:
+                return classRoom.getSlotA();
+            case 2:
+                return classRoom.getSlotB();
+            case 3:
+                return classRoom.getSlotC();
+            case 4:
+                return classRoom.getSlotD();
+            case 5:
+                return classRoom.getSlotE();
+            default:
+                throw new IllegalStateException("Unexpected value: " + slot);
+        }
     }
 
     private boolean isRoomAvailableForSlots(ClassRoom room, int timeSlotsNeeded, int earliest) {
