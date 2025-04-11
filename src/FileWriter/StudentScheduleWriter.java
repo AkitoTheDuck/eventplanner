@@ -104,11 +104,11 @@ public class StudentScheduleWriter extends FileWriter<Student> {
         slotTimes.put("D", "11:40-12:25");
         slotTimes.put("E", "12:25-13:10");
 
-        slotIndexMap.put("A", 0);
-        slotIndexMap.put("B", 1);
-        slotIndexMap.put("C", 2);
-        slotIndexMap.put("D", 3);
-        slotIndexMap.put("E", 4);
+        slotIndexMap.put("A", Integer.valueOf(0));
+        slotIndexMap.put("B", Integer.valueOf(1));
+        slotIndexMap.put("C", Integer.valueOf(2));
+        slotIndexMap.put("D", Integer.valueOf(3));
+        slotIndexMap.put("E", Integer.valueOf(4));
 
         ArrayList<Tuple> zuweisungen = student.getZuweisungsListe();
 
