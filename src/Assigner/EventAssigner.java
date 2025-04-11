@@ -133,4 +133,26 @@ public class EventAssigner {
             }
         }
     }
-}
+
+    public void assignRest(ArrayList<Student> students, ArrayList<Company> companies){
+        for(Student student : students){
+            for(Company company : companies){
+                for(int i = 0; i < student.getAssignings().size(); i++){
+                    if(!student.getAssignings().get(i)){
+                        if(company.getStudenSlotsList().get(i).size() < company.getMaxStudents()){
+                                if(company.getRoomList().get(i) != null){
+                                    company.getStudenSlotsList().get(i).add(student);
+                                    student.setAssigned(i, Integer.parseInt(company.getNr()));
+                                    student.finalListByNumber(i, company, Integer.parseInt(company.getNr()));
+                                }
+                            }
+                            System.out.println("Schüler " + student.getFirstName() + " in " + company.getName() + " hinzugefügt");
+                            System.out.println("Slot: " + (i+1));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+    }

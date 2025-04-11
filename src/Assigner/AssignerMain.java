@@ -108,6 +108,10 @@ public class AssignerMain {
         }
         eventAssigner.assignRestWishes(students, companies, 0);
         eventAssigner.assignRestWishes(students, companies, 1);
+        /*
+        Durch jeden student, jede company
+         */
+        eventAssigner.assignRest(students, companies);
         int iter = 0;
         for(Student student : students){
             if(student.getNotFulFilled().size() > 1){

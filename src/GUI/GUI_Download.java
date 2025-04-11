@@ -79,6 +79,11 @@ public class GUI_Download {
         }
         eventAssigner.assignRestWishes(students, companies, 0);
         eventAssigner.assignRestWishes(students, companies, 1);
+        eventAssigner.assignRestWishes(students, companies, 1);
+        eventAssigner.assignRestWishes(students, companies, 1);
+        eventAssigner.assignRestWishes(students, companies, 1);
+        eventAssigner.assignRestWishes(students, companies, 1);
+        eventAssigner.assignRestWishes(students, companies, 1);
         int iter = 0;
         for(Student student : students){
             if(student.getNotFulFilled().size() > 1){
