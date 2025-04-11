@@ -14,6 +14,26 @@ public class Tuple {
     private Company company;
     private String wunsch;
 
+    public String getSlot() {
+        return slot;
+    }
+
+    public void setSlot(String slot) {
+        this.slot = slot;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public void setWunsch(String wunsch) {
+        this.wunsch = wunsch;
+    }
+
     public Tuple(String slot, Company company, String wunsch) {
         this.slot = slot;
         this.company = company;

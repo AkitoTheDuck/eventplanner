@@ -11,5 +11,5 @@
 ## Weitere Dokumentation:
 - [Nutzung](src/Doku/nutzung.md)
 - [Datenverarbeitung](src/Doku/datenverarbeitung.md)
-- [Datenstrucktur](src/Doku/aufbauExcelDateien)
+- [Datenstrucktur](src/Doku/aufbauExcelDateien.md)
 - [Autoren](src/Doku/autoren.md)
