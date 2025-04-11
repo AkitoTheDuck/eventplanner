@@ -60,13 +60,27 @@ public class CompanyReader extends FileReader<Company> {
 
     private int parseEarliestSlot(String slot) {
         if (slot == null) return 1;  // Default value "A"
-        return switch (slot) {
-            case "A" -> 1;
-            case "B" -> 2;
-            case "C" -> 3;
-            case "D" -> 4;
-            case "E" -> 5;
-            default -> 1;
-        };
+        int result;
+        switch (slot) {
+            case "A":
+                result = 1;
+                break;
+            case "B":
+                result = 2;
+                break;
+            case "C":
+                result = 3;
+                break;
+            case "D":
+                result = 4;
+                break;
+            case "E":
+                result = 5;
+                break;
+            default:
+                result = 1; // Default value
+                break;
+        }
+        return result;
     }
 }

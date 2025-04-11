@@ -31,8 +31,8 @@ public class GUI_Download {
         File processedFile = new File(downloadPath);
 
         if ("Download all".equals(selectedOption)){
-            System.out.println("Alle Datein werden heruntergeladen");
-            JOptionPane.showMessageDialog(null,"Alle verarbeitete Datein wurden heruntergeladen");
+            System.out.println("Alle Dateien werden heruntergeladen");
+            JOptionPane.showMessageDialog(null,"Alle verarbeitete Dateien wurden heruntergeladen");
         } else {
             System.out.println("Herunterladen: " + processedFile.getAbsolutePath());
             JOptionPane.showMessageDialog(null,selectedOption + " wurde heruntergeladen");
