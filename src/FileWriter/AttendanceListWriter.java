@@ -39,11 +39,11 @@ public class AttendanceListWriter extends FileWriter<Company>{
 
             int rowCounter = 3;
 
-            rowCounter = printTimeSlots("8:45 – 9:30", company.getSlotA(), rowCounter, sheet);
-            rowCounter = printTimeSlots("9:50 - 10:35", company.getSlotB(), rowCounter, sheet);
-            rowCounter = printTimeSlots("10:35 – 11:20", company.getSlotC(), rowCounter, sheet);
-            rowCounter = printTimeSlots("11:40 – 12:25", company.getSlotD(), rowCounter, sheet);
-            rowCounter = printTimeSlots("12:25 - 13:30", company.getSlotE(), rowCounter, sheet);
+            rowCounter = printTimeSlots("8:45 – 9:30", company.getStudenSlotsList().get(0), rowCounter, sheet);
+            rowCounter = printTimeSlots("9:50 - 10:35", company.getStudenSlotsList().get(1), rowCounter, sheet);
+            rowCounter = printTimeSlots("10:35 – 11:20", company.getStudenSlotsList().get(2), rowCounter, sheet);
+            rowCounter = printTimeSlots("11:40 – 12:25", company.getStudenSlotsList().get(3), rowCounter, sheet);
+            rowCounter = printTimeSlots("12:25 - 13:30", company.getStudenSlotsList().get(4), rowCounter, sheet);
 
             sheetCount++;
         }

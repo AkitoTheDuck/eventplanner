@@ -1,5 +1,6 @@
 package Assigner;
 
+import Algorithm.TimeTable;
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import DataWrapper.Student;
@@ -8,6 +9,7 @@ import FileReader.CompanyReader;
 import FileReader.StudentReader;
 
 import java.util.ArrayList;
+
 /**
  * Test main()
  */
@@ -85,6 +87,35 @@ public class AssignerMain {
 
         Assigner assigner = new Assigner(students, companies, classRooms);
         assigner.assign();
-        //assigner.printInfo();
+
+        TimeTable algo = new TimeTable(companies, classRooms);
+        algo.assign();
+
+        EventAssigner eventAssigner = new EventAssigner();
+
+        eventAssigner.assignPupil(companies);
+
+        for(Student student : students){
+            ArrayList<Integer> wishes = new ArrayList<>(student.getChoices());
+                for(Tuple tuple : student.getZuweisungsListe()){
+                    for(int i = 0; i < student.getChoices().size(); i++){
+                        if(Integer.parseInt(tuple.getWunsch()) == student.getChoices().get(i)){
+                            wishes.remove(student.getChoices().get(i));
+                        }
+                    }
+                }
+                student.setNotFulFilled(wishes);
+        }
+        eventAssigner.assignRestWishes(students, companies, 0);
+        eventAssigner.assignRestWishes(students, companies, 1);
+        int iter = 0;
+        for(Student student : students){
+            if(student.getNotFulFilled().size() > 1){
+                System.out.println("Schüler " + student.getFirstName() + " hat nicht alle Zuweisungen");
+                System.out.println("Zahl: " + iter);
+            }
+            iter++;
+        }
+        System.out.println("Gewichtung: " + EventAssigner.gewichtung(students.size()));
     }
 }

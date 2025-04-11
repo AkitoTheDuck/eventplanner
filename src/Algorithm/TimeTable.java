@@ -119,22 +119,27 @@ public class TimeTable {
             case 1:
                 company.setSlotAClass(room);
                 room.setSlotA(true);
+                company.getRoomList().add(0, room);
                 break;
             case 2:
                 company.setSlotBClass(room);
                 room.setSlotB(true);
+                company.getRoomList().add(1, room);
                 break;
             case 3:
                 company.setSlotCClass(room);
                 room.setSlotC(true);
+                company.getRoomList().add(2, room);
                 break;
             case 4:
                 company.setSlotDClass(room);
                 room.setSlotD(true);
+                company.getRoomList().add(3, room);
                 break;
             case 5:
                 company.setSlotEClass(room);
                 room.setSlotE(true);
+                company.getRoomList().add(4, room);
                 break;
         }
     }
