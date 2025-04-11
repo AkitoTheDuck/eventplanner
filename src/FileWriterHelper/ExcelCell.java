@@ -70,18 +70,20 @@ public class ExcelCell {
     public void setBorder(BorderPosition pos, BorderStyle bStyle) {
         CellStyle style = this.style;
         switch (pos) {
-            case TOP -> {
+            case TOP:
                 style.setBorderTop(bStyle);
-            }
-            case BOTTOM -> {
+                break;
+            case BOTTOM:
                 style.setBorderBottom(bStyle);
-            }
-            case LEFT -> {
+                break;
+            case LEFT:
                 style.setBorderLeft(bStyle);
-            }
-            case RIGHT -> {
+                break;
+            case RIGHT:
                 style.setBorderRight(bStyle);
-            }
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value: " + pos);
         }
     }
 
