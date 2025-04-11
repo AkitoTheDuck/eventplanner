@@ -15,7 +15,6 @@
 
 Die Spaltennamen sind in den Dateien wie folgt:
 
-- Unter den Drag-and-Drop-Feldern befindet sich eine Auswahl-Box mit dem Text "Download all" und mehreren Optionen:
 - **Schülerwahl**  
 Klasse; Vorname; Nachname; Wahl 1; Wahl 2; Wahl 3; Wahl 4; Wahl 5; Wahl 6 (Erstazwunsch)
 - **Veranstaltungsliste**  
