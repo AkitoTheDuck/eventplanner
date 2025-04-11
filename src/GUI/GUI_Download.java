@@ -1,12 +1,16 @@
 package GUI;
 
 
+import Algorithm.TimeTable;
 import Assigner.Assigner;
+import Assigner.EventAssigner;
+import Assigner.Tuple;
 import DataWrapper.ClassRoom;
 import DataWrapper.Company;
 import DataWrapper.Student;
 import FileReader.*;
 import FileWriter.*;
+
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -35,10 +39,6 @@ public class GUI_Download {
         }
     }
 
-    private void fulfillmentScore(){
-        JOptionPane.showMessageDialog(null, "Erfüllungsscore: ");
-    }
-
     //durchläuft die Zuweisung und schreibt dann die ausgewählte Datei
     public void executeAlgorithm(String selectedOption, Map<String, File> dropPanelFiles) {
         String filePath1 = String.valueOf(dropPanelFiles.get("Schülerauswahl"));
@@ -53,12 +53,40 @@ public class GUI_Download {
         FileWriter<Student> laufzettel = new StudentScheduleWriter();
         FileWriter<Company> anwesendheit = new AttendanceListWriter();
 
-        ArrayList<Company> companies =  coReader.parse();
         ArrayList<Student> students =  stReader.parse();
         ArrayList<ClassRoom> rooms =  clReader.parse();
+        ArrayList<Company> companies =  coReader.parse();
 
-        //Assigner assigner = new Assigner(students, companies, rooms);
-        //assigner.assign();
+        Assigner assigner = new Assigner(students, companies, rooms);
+        assigner.assign();
+
+        TimeTable algo = new TimeTable(companies, rooms);
+        algo.assign();
+
+        EventAssigner eventAssigner = new EventAssigner();
+        eventAssigner.assignPupil(companies);
+
+        for(Student student : students){
+            ArrayList<Integer> wishes = new ArrayList<>(student.getChoices());
+            for(Tuple tuple : student.getZuweisungsListe()){
+                for(int i = 0; i < student.getChoices().size(); i++){
+                    if(Integer.parseInt(tuple.getWunsch()) == student.getChoices().get(i)){
+                        wishes.remove(student.getChoices().get(i));
+                    }
+                }
+            }
+            student.setNotFulFilled(wishes);
+        }
+        eventAssigner.assignRestWishes(students, companies, 0);
+        eventAssigner.assignRestWishes(students, companies, 1);
+        int iter = 0;
+        for(Student student : students){
+            if(student.getNotFulFilled().size() > 1){
+                System.out.println("Schüler " + student.getFirstName() + " hat nicht alle Zuweisungen");
+                System.out.println("Zahl: " + iter);
+            }
+            iter++;
+        }
 
         switch (selectedOption) {
             case "Download all":
@@ -77,6 +105,7 @@ public class GUI_Download {
                 break;
         }
 
-        fulfillmentScore();
+        JOptionPane.showMessageDialog(null,"Erfüllungsscore: " + EventAssigner.gewichtung(students.size()));
+        EventAssigner.score = 0;
     }
 }

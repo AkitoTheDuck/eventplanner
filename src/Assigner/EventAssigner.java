@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class EventAssigner {
 
-    private static int score = 0;
+    public static int score = 0;
 
     /*
     @author AkitoTheDuck, MrsNoName
