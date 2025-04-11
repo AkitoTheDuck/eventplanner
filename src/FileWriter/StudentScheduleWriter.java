@@ -1,5 +1,6 @@
 package FileWriter;
 
+import DataWrapper.Company;
 import DataWrapper.Student;
 import FileWriterHelper.ExcelCell;
 import org.apache.poi.ss.usermodel.*;
@@ -92,13 +93,15 @@ public class StudentScheduleWriter extends FileWriter<Student> {
         int[] choices = {student.getChoice1(), student.getChoice2(), student.getChoice3(), student.getChoice4(), student.getChoice5()};
 
         //TODO TODO TODO muss noch angepasst werden für echte Raum, Veranstaltung, Wunsch
+        //assignings Map <bool, CompanyNr>
+        //sortedChoice
 
         for (int i = 0; i < timeSlots.length; i++) {
             ExcelCell timeCell = new ExcelCell(timeSlots[i], row, 0, workbook);
             timeCell.applyToSheet(sheet);
             timeCell.setBorder(ExcelCell.BorderPosition.LEFT,BorderStyle.MEDIUM);
             timeCell.setBorder(ExcelCell.BorderPosition.RIGHT,BorderStyle.THIN);
-
+            
             ExcelCell roomCell = new ExcelCell("311", row, 1, workbook);
             roomCell.applyToSheet(sheet);
 
